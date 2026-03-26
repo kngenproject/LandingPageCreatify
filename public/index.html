@@ -336,12 +336,12 @@
   }
 
   /* ══════════════════════════════════════ */
-  /* APP CARD */
+  /* APP CARD - LOGIN FORM */
   /* ══════════════════════════════════════ */
   .app-card {
     background: var(--white);
     border-radius: 28px;
-    padding: 34px 26px 30px;
+    padding: 28px 26px 24px;
     text-align: center;
     width: 100%;
     box-shadow: 0 8px 40px rgba(120,90,50,0.10);
@@ -351,49 +351,153 @@
   }
 
   .app-ikon { 
-    font-size: 34px; 
+    font-size: 30px; 
     display: block; 
-    margin-bottom: 10px; 
+    margin-bottom: 8px; 
   }
 
   .app-card h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 10px;
+    margin-bottom: 4px;
     letter-spacing: -0.01em;
   }
 
-  .app-card p {
-    font-size: 12px;
-    line-height: 1.65;
+  .app-card .app-sub {
+    font-size: 11px;
     color: var(--muted);
-    font-weight: 400;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
 
-  .app-btn {
-    display: inline-block;
-    padding: 10px 30px;
-    background: transparent;
-    border: 1.5px solid var(--blue);
-    color: var(--deep);
-    border-radius: 100px;
+  /* Login Form */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .login-form input {
+    width: 100%;
+    padding: 11px 16px;
+    border-radius: 14px;
+    border: 1.5px solid #ddd0b8;
+    background: var(--bg);
     font-family: 'Nunito', sans-serif;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    transition: all 0.25s ease;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .login-form input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(184,154,106,0.15);
+  }
+  .login-form input::placeholder {
+    color: var(--muted);
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
     cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(180,140,90,0.35);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
-  .app-btn:hover { 
-    background: var(--blue-lt);
-    box-shadow: 0 4px 12px rgba(180,140,90,0.2);
+  .login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(180,140,90,0.45);
   }
-  .app-btn:active {
+  .login-btn:active {
     transform: scale(0.98);
+  }
+  .login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0;
+  }
+  .login-divider::before, .login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd0b8;
+  }
+  .login-divider span {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .login-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .login-link {
+    font-size: 11px;
+    color: var(--blue);
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    padding: 0;
+  }
+  .login-link:hover {
+    color: var(--deep);
+    text-decoration: underline;
+  }
+
+  /* Login spinner */
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Error message */
+  .login-error {
+    font-size: 11px;
+    color: #c95a5a;
+    background: #fef2f2;
+    border: 1px solid #f5c6c6;
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: center;
+    display: none;
+  }
+  .login-error.show {
+    display: block;
   }
 
   /* ══════════════════════════════════════ */
@@ -513,20 +617,41 @@
     </div>
   </div>
 
-  <!-- PANEL: APP -->
+  <!-- PANEL: APP (LOGIN FORM) -->
   <div class="tab-panel" id="tab-app" role="tabpanel">
     <div class="app-card">
-      <span class="app-ikon" aria-hidden="true">📱</span>
-      <h2>Creatify App</h2>
-      <p>Kelola semua undangan digitalmu dalam satu aplikasi. Pantau RSVP real-time dan bagikan lewat WhatsApp langsung dari genggaman.</p>
-      
-      <button 
-        class="app-btn" 
-        onclick="goToAppLogin()"
-        aria-label="Login ke Creatify App"
-      >
-        Login ke App
-      </button>
+      <span class="app-ikon" aria-hidden="true">🔐</span>
+      <h2>Masuk ke App</h2>
+      <p class="app-sub">Gunakan akun Creatify kamu</p>
+
+      <div class="login-form">
+        <div id="loginError" class="login-error"></div>
+
+        <input 
+          type="email" 
+          id="loginEmail" 
+          placeholder="Email" 
+          autocomplete="email"
+          inputmode="email"
+        />
+        <input 
+          type="password" 
+          id="loginPassword" 
+          placeholder="Password"
+          autocomplete="current-password"
+        />
+
+        <button class="login-btn" id="loginBtn" onclick="handleLogin()">
+          Masuk
+        </button>
+
+        <div class="login-divider"><span>atau</span></div>
+
+        <div class="login-footer">
+          <button class="login-link" onclick="goToAppRegister()">Daftar akun baru</button>
+          <button class="login-link" onclick="goToForgotPassword()">Lupa password?</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -535,273 +660,165 @@
 
 </div>
 
-<script>
-  /**
-   * CREATIFY APP - Navigasi ke Path App yang terpisah
-   */
+<script type="module">
+  // ═══════════════════════════════════════════════════════════
+  // 🔧 FIREBASE CONFIG — GANTI DENGAN CONFIG PROJECT KAMU
+  // Dapatkan di: Firebase Console → Project Settings → Web App
+  // ═══════════════════════════════════════════════════════════
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // ─────────────────────────────────────────────────────────
-  // CONFIGURATION - PATH DEFINITIONS
-  // ─────────────────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey:            "GANTI_API_KEY",
+    authDomain:        "GANTI_PROJECT_ID.firebaseapp.com",
+    projectId:         "GANTI_PROJECT_ID",
+    storageBucket:     "GANTI_PROJECT_ID.appspot.com",
+    messagingSenderId: "GANTI_MESSAGING_SENDER_ID",
+    appId:             "GANTI_APP_ID"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // ═══════════════════════════════════════════════════════════
+  // 🗺️ PATH CONFIG — Sesuaikan dengan struktur folder kamu
+  // ═══════════════════════════════════════════════════════════
   const APP_CONFIG = {
     name: 'Creatify',
     version: '1.0.0',
-    baseUrl: window.location.origin,
     paths: {
-      // Path untuk halaman App
       app: {
-        login: '/app/login',
-        dashboard: '/app/dashboard',
-        register: '/app/register',
+        dashboard:      '/app/dashboard',
+        register:       '/app/register',
         forgotPassword: '/app/forgot-password'
       },
-      // Path untuk Undangan
       undangan: {
-        builder: '/undangan/builder',
+        builder:   '/undangan/builder',
         templates: '/undangan/templates'
       }
     }
   };
 
-  // ─────────────────────────────────────────────────────────
-  // TAB SWITCHING SYSTEM
-  // ─────────────────────────────────────────────────────────
-  function switchTab(tabId) {
-    // Update URL hash
-    if (window.history && window.history.pushState) {
-      window.history.pushState(null, '', `#${tabId}`);
-    }
-    
-    // Hide all panels
-    document.querySelectorAll('.tab-panel').forEach(panel => {
-      panel.classList.remove('active');
-    });
-
-    // Show selected panel
-    const selectedPanel = document.getElementById(`tab-${tabId}`);
-    if (selectedPanel) {
-      selectedPanel.classList.add('active');
-    }
-
-    // Update button states
-    document.querySelectorAll('.tab-btn').forEach((btn, index) => {
-      const isActive = (index === 0 && tabId === 'undangan') || 
-                       (index === 1 && tabId === 'app');
-      btn.classList.toggle('active', isActive);
-    });
-
-    // Store preference
-    sessionStorage.setItem('activeTab', tabId);
-
-    console.log(`[${APP_CONFIG.name}] Switched to tab: ${tabId}`);
-  }
-
-  // ─────────────────────────────────────────────────────────
-  // NAVIGATION FUNCTIONS - REDIRECT KE PATH TERPISAH
-  // ─────────────────────────────────────────────────────────
-  
-  /**
-   * Navigasi ke halaman login app
-   * Ini akan redirect ke path /app/login
-   */
-  function goToAppLogin() {
-    const loginPath = APP_CONFIG.paths.app.login;
-    const fullUrl = `${APP_CONFIG.baseUrl}${loginPath}`;
-    
-    console.log(`[${APP_CONFIG.name}] Redirecting to App Login: ${fullUrl}`);
-    
-    // Simpan referensi halaman sebelumnya
-    sessionStorage.setItem('returnTo', window.location.pathname);
-    
-    // Redirect ke halaman login app
-    // Untuk demo, kita tampilkan notifikasi karena ini adalah file HTML statis
-    // Di production, gunakan window.location.href
-    
-    // Cek apakah ini mode demo (file HTML)
-    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
-      showPathPreview('🔐 Redirect ke halaman login App', loginPath);
-    } else {
-      // Production: redirect sebenarnya
-      window.location.href = fullUrl;
-    }
-  }
-
-  /**
-   * Navigasi ke halaman dashboard app (setelah login)
-   */
-  function goToAppDashboard() {
-    const dashboardPath = APP_CONFIG.paths.app.dashboard;
-    const fullUrl = `${APP_CONFIG.baseUrl}${dashboardPath}`;
-    
-    console.log(`[${APP_CONFIG.name}] Redirecting to App Dashboard: ${fullUrl}`);
-    
-    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
-      showPathPreview('📊 Redirect ke dashboard App', dashboardPath);
-    } else {
-      window.location.href = fullUrl;
-    }
-  }
-
-  /**
-   * Navigasi ke halaman register app
-   */
-  function goToAppRegister() {
-    const registerPath = APP_CONFIG.paths.app.register;
-    const fullUrl = `${APP_CONFIG.baseUrl}${registerPath}`;
-    
-    console.log(`[${APP_CONFIG.name}] Redirecting to App Register: ${fullUrl}`);
-    
-    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
-      showPathPreview('📝 Redirect ke halaman registrasi App', registerPath);
-    } else {
-      window.location.href = fullUrl;
-    }
-  }
-
-  /**
-   * Navigasi ke undangan builder
-   */
-  function handleCreateInvitation() {
-    const builderPath = APP_CONFIG.paths.undangan.builder;
-    const fullUrl = `${APP_CONFIG.baseUrl}${builderPath}`;
-    
-    console.log(`[${APP_CONFIG.name}] Redirecting to Invitation Builder: ${fullUrl}`);
-    
-    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
-      showPathPreview('✉️ Redirect ke builder undangan', builderPath);
-    } else {
-      window.location.href = fullUrl;
-    }
-  }
-
-  // ─────────────────────────────────────────────────────────
-  // UTILITY: PREVIEW NAVIGASI (UNTUK DEMO MODE)
-  // ─────────────────────────────────────────────────────────
-  function showPathPreview(title, path) {
-    const preview = document.createElement('div');
-    preview.style.cssText = `
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--deep), #8b6946);
-      color: var(--white);
-      padding: 16px 28px;
-      border-radius: 60px;
-      font-size: 14px;
-      z-index: 10000;
-      animation: slideUp 0.4s ease;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.2);
-      text-align: center;
-      font-weight: 500;
-      pointer-events: none;
-      font-family: 'Nunito', sans-serif;
-    `;
-    
-    preview.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;">
-        <span style="font-size: 24px;">🔗</span>
-        <div>
-          <div style="font-weight: bold; margin-bottom: 4px;">${title}</div>
-          <div style="font-size: 12px; opacity: 0.9; font-family: monospace;">${path}</div>
-        </div>
-      </div>
-      <div style="font-size: 10px; opacity: 0.7; margin-top: 8px;">
-        ⚡ Mode Demo - Di production akan redirect ke halaman ini
-      </div>
-    `;
-    
-    document.body.appendChild(preview);
-    
-    setTimeout(() => {
-      preview.style.opacity = '0';
-      preview.style.transform = 'translateX(-50%) translateY(20px)';
-      preview.style.transition = 'all 0.3s ease';
-      setTimeout(() => preview.remove(), 300);
-    }, 3000);
-  }
-
-  // ─────────────────────────────────────────────────────────
-  // UTILITY: NOTIFICATIONS
-  // ─────────────────────────────────────────────────────────
-  function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
-      border-radius: 60px;
-      font-size: 13px;
-      font-weight: 500;
-      z-index: 10001;
-      animation: slideDown 0.3s ease;
-      opacity: 0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      font-family: 'Nunito', sans-serif;
-    `;
-
-    if (type === 'success') {
-      notification.style.background = 'linear-gradient(135deg, #6b8c5c, #8baa7a)';
-      notification.style.color = 'white';
-    } else if (type === 'error') {
-      notification.style.background = 'linear-gradient(135deg, #e07474, #c95a5a)';
-      notification.style.color = 'white';
-    } else {
-      notification.style.background = 'linear-gradient(135deg, var(--deep), #8b6946)';
-      notification.style.color = 'white';
-    }
-
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-      notification.style.opacity = '1';
-    }, 10);
-
-    setTimeout(() => {
-      notification.style.opacity = '0';
-      setTimeout(() => notification.remove(), 300);
-    }, 2800);
-  }
-
-  // ─────────────────────────────────────────────────────────
-  // INITIALIZATION
-  // ─────────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log(`%c${APP_CONFIG.name} v${APP_CONFIG.version}`, 'color: #b89a6a; font-weight: bold; font-size: 14px;');
-    console.log('Navigation System - Redirect to App Path ✓');
-    console.log('');
-    console.log('📌 Available Paths:');
-    console.log('  🔐 App Login:', APP_CONFIG.paths.app.login);
-    console.log('  📊 App Dashboard:', APP_CONFIG.paths.app.dashboard);
-    console.log('  📝 App Register:', APP_CONFIG.paths.app.register);
-    console.log('  ✉️ Undangan Builder:', APP_CONFIG.paths.undangan.builder);
-    console.log('');
-    console.log('ℹ️  Saat diklik, akan redirect ke path yang ditentukan');
-    
-    // Restore previous tab preference
-    const previousTab = sessionStorage.getItem('activeTab');
-    if (previousTab && (previousTab === 'undangan' || previousTab === 'app')) {
-      switchTab(previousTab);
-    }
-    
-    // Check URL hash
-    const hash = window.location.hash.slice(1);
-    if (hash === 'undangan' || hash === 'app') {
-      switchTab(hash);
+  // ═══════════════════════════════════════════════════════════
+  // AUTH STATE — Kalau sudah login, langsung redirect dashboard
+  // ═══════════════════════════════════════════════════════════
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User sudah login — redirect ke dashboard
+      window.location.href = APP_CONFIG.paths.app.dashboard;
     }
   });
 
-  // Expose global functions
-  window.switchTab = switchTab;
-  window.handleCreateInvitation = handleCreateInvitation;
-  window.goToAppLogin = goToAppLogin;
-  window.goToAppDashboard = goToAppDashboard;
-  window.goToAppRegister = goToAppRegister;
+  // ═══════════════════════════════════════════════════════════
+  // HANDLE LOGIN
+  // ═══════════════════════════════════════════════════════════
+  window.handleLogin = async function() {
+    const email    = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const btn      = document.getElementById('loginBtn');
+    const errEl    = document.getElementById('loginError');
+
+    // Reset error
+    errEl.classList.remove('show');
+
+    // Validasi
+    if (!email || !password) {
+      showLoginError('Email dan password wajib diisi.');
+      return;
+    }
+
+    // Loading state
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Masuk...';
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // onAuthStateChanged akan handle redirect ke dashboard
+    } catch (err) {
+      btn.disabled = false;
+      btn.innerHTML = 'Masuk';
+      showLoginError(getFirebaseErrorMsg(err.code));
+    }
+  };
+
+  function showLoginError(msg) {
+    const el = document.getElementById('loginError');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  // Terjemahan pesan error Firebase ke Bahasa Indonesia
+  function getFirebaseErrorMsg(code) {
+    const msgs = {
+      'auth/invalid-email':        'Format email tidak valid.',
+      'auth/user-not-found':       'Akun tidak ditemukan.',
+      'auth/wrong-password':       'Password salah.',
+      'auth/invalid-credential':   'Email atau password salah.',
+      'auth/too-many-requests':    'Terlalu banyak percobaan. Coba lagi nanti.',
+      'auth/user-disabled':        'Akun ini dinonaktifkan.',
+      'auth/network-request-failed': 'Koneksi gagal. Periksa internet kamu.',
+    };
+    return msgs[code] || 'Login gagal. Coba lagi.';
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // NAVIGASI
+  // ═══════════════════════════════════════════════════════════
+  window.goToAppRegister = function() {
+    window.location.href = APP_CONFIG.paths.app.register;
+  };
+
+  window.goToForgotPassword = function() {
+    window.location.href = APP_CONFIG.paths.app.forgotPassword;
+  };
+
+  window.handleCreateInvitation = function() {
+    window.location.href = APP_CONFIG.paths.undangan.builder;
+  };
+
+  // ═══════════════════════════════════════════════════════════
+  // TAB SWITCHING
+  // ═══════════════════════════════════════════════════════════
+  window.switchTab = function(tabId) {
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, '', `#${tabId}`);
+    }
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById(`tab-${tabId}`);
+    if (panel) panel.classList.add('active');
+
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+      const isActive = (i === 0 && tabId === 'undangan') || (i === 1 && tabId === 'app');
+      btn.classList.toggle('active', isActive);
+    });
+
+    sessionStorage.setItem('activeTab', tabId);
+
+    // Focus email input saat tab App aktif
+    if (tabId === 'app') {
+      setTimeout(() => document.getElementById('loginEmail')?.focus(), 400);
+    }
+  };
+
+  // Enter key pada form login
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const activeTab = sessionStorage.getItem('activeTab');
+      if (activeTab === 'app' || document.getElementById('tab-app').classList.contains('active')) {
+        window.handleLogin();
+      }
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // INIT
+  // ═══════════════════════════════════════════════════════════
+  document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.slice(1);
+    const prev = sessionStorage.getItem('activeTab');
+    const tab  = (hash === 'undangan' || hash === 'app') ? hash : (prev || 'undangan');
+    window.switchTab(tab);
+  });
 </script>
 
 </body>

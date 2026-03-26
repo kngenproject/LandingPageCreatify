@@ -2,40 +2,33 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="description" content="Creatify Dashboard - Kelola undangan digital Anda">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#b89a6a">
-<title>Dashboard | Creatify App</title>
+<title>Dashboard — Creatify</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg:       #f5f0e8;
-    --gold:     #b89a6a;
-    --gold-lt:  #ede6d6;
-    --sand:     #d4b896;
-    --sand-lt:  #f2ede3;
-    --brown:    #6b4f2e;
-    --text:     #2c2118;
-    --muted:    #9a8570;
-    --white:    #fdfaf5;
-    --success:  #6b8c5c;
+    --bg:      #f5f0e8;
+    --blue:    #b89a6a;
+    --blue-lt: #ede6d6;
+    --sky:     #d4b896;
+    --sky-lt:  #f2ede3;
+    --deep:    #6b4f2e;
+    --text:    #2c2118;
+    --muted:   #9a8570;
+    --white:   #fdfaf5;
+    --card-shadow: 0 4px 24px rgba(120,90,50,0.10), 0 1px 4px rgba(120,90,50,0.06);
   }
 
   body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, var(--bg) 0%, #e8e0d4 100%);
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text);
     font-family: 'Nunito', sans-serif;
-    padding: 20px;
-    position: relative;
   }
 
   /* Background blobs */
@@ -48,415 +41,401 @@
     z-index: 0;
   }
   body::before {
-    width: 400px;
-    height: 400px;
-    top: -100px;
-    right: -100px;
-    background: radial-gradient(circle, #d4b89680, transparent 70%);
+    width: 400px; height: 400px;
+    top: -100px; right: -80px;
+    background: radial-gradient(circle, #d4b89655, transparent 70%);
   }
   body::after {
-    width: 350px;
-    height: 350px;
-    bottom: -80px;
-    left: -80px;
-    background: radial-gradient(circle, #c9a87880, transparent 70%);
+    width: 300px; height: 300px;
+    bottom: -80px; left: -60px;
+    background: radial-gradient(circle, #c9a87855, transparent 70%);
   }
 
-  .dashboard-container {
-    max-width: 500px;
-    margin: 0 auto;
+  .page {
     position: relative;
     z-index: 1;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
   }
 
-  /* Header */
-  .dashboard-header {
+  /* ══════════════════════════════════════ */
+  /* HEADER */
+  /* ══════════════════════════════════════ */
+  .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 12px;
+    justify-content: space-between;
+    padding: 20px 0 10px;
   }
-  .logo-small {
+
+  .brand {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--gold-lt);
-    border: 1px solid #c9aa82;
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--brown);
-  }
-  .logo-small::before {
-    content: '✦';
-    font-size: 8px;
-    color: var(--gold);
-  }
-  .user-info {
-    background: var(--white);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--brown);
-    border: 1px solid #ddd0b8;
   }
 
-  /* Welcome Banner */
-  .welcome-banner {
-    background: linear-gradient(135deg, var(--gold), var(--sand));
-    border-radius: 28px;
-    padding: 28px 24px;
-    color: white;
-    margin-bottom: 24px;
-    text-align: center;
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(180,140,90,0.3);
   }
-  .welcome-banner h2 {
+
+  .brand-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    margin-bottom: 8px;
-  }
-  .welcome-banner p {
-    font-size: 13px;
-    opacity: 0.9;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  /* Stats Grid */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 20px;
-    text-align: center;
-    border: 1px solid #ddd0b8;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  }
-  .stat-card .stat-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-  .stat-card .stat-value {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--brown);
-  }
-  .stat-card .stat-label {
+  .logout-btn {
+    background: none;
+    border: 1.5px solid #ddd0b8;
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-family: 'Nunito', sans-serif;
     font-size: 11px;
+    font-weight: 600;
     color: var(--muted);
-    margin-top: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .logout-btn:hover {
+    border-color: var(--blue);
+    color: var(--deep);
+    background: var(--blue-lt);
   }
 
-  /* Invitation List */
-  .section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+  /* ══════════════════════════════════════ */
+  /* GREETING */
+  /* ══════════════════════════════════════ */
+  .greeting {
+    padding: 24px 0 20px;
+    opacity: 0;
+    animation: slideUp 0.6s 0.1s ease forwards;
   }
-  .section-title h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--brown);
-  }
-  .invitation-list {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 20px;
-    border: 1px solid #ddd0b8;
-    margin-bottom: 24px;
-  }
-  .invitation-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 0;
-    border-bottom: 1px solid #eee5d8;
-  }
-  .invitation-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-  .invitation-item:first-child {
-    padding-top: 0;
-  }
-  .invitation-info h4 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
+
+  .greeting-sub {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
     margin-bottom: 4px;
   }
-  .invitation-info p {
-    font-size: 11px;
-    color: var(--muted);
+
+  .greeting-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 7vw, 34px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
   }
-  .invitation-status {
-    background: var(--success);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 30px;
+  .greeting-name em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ══════════════════════════════════════ */
+  /* SECTION LABEL */
+  /* ══════════════════════════════════════ */
+  .section-label {
     font-size: 10px;
-    font-weight: 600;
-  }
-
-  /* Action Buttons */
-  .action-buttons {
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
     display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd0b8;
+  }
+
+  /* ══════════════════════════════════════ */
+  /* APP GRID */
+  /* ══════════════════════════════════════ */
+  .app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 28px;
   }
-  .btn-primary {
-    flex: 1;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--gold), var(--sand));
-    color: white;
-    border: none;
-    border-radius: 60px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+
+  .app-tile {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 20px 18px 18px;
+    border: 1px solid #ddd0b8;
+    box-shadow: var(--card-shadow);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    display: block;
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards;
+    position: relative;
+    overflow: hidden;
   }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(150,110,60,0.3);
+  .app-tile::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    opacity: 0.07;
+    transition: opacity 0.25s;
   }
-  .btn-outline {
-    flex: 1;
-    padding: 14px;
-    background: transparent;
-    border: 1.5px solid var(--gold);
-    color: var(--brown);
-    border-radius: 60px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  .app-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(120,90,50,0.16);
+    border-color: var(--blue);
   }
-  .btn-outline:hover {
-    background: var(--gold-lt);
+  .app-tile:hover::before {
+    opacity: 0.14;
   }
-  .btn-logout {
-    width: 100%;
-    padding: 12px;
-    background: transparent;
-    border: 1.5px solid #d4bcb0;
-    color: #b87a7a;
-    border-radius: 60px;
-    font-family: 'Nunito', sans-serif;
+  .app-tile:active {
+    transform: scale(0.97);
+  }
+
+  .tile-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+
+  .tile-name {
+    font-weight: 700;
     font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .btn-logout:hover {
-    background: #fff0f0;
-    border-color: #e07474;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.2;
   }
 
-  /* Animations */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .tile-desc {
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.4;
+    font-weight: 400;
   }
 
-  .dashboard-container {
-    animation: fadeInUp 0.5s ease;
+  .tile-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 100px;
+    margin-top: 8px;
+    background: var(--blue-lt);
+    color: var(--deep);
+    border: 1px solid #c9aa82;
   }
+
+  /* ══════════════════════════════════════ */
+  /* ⬇⬇⬇  TAMBAH APP BARU DI SINI  ⬇⬇⬇  */
+  /* Warna aksen tiap tile (opsional)       */
+  /* ══════════════════════════════════════ */
+  .app-tile[data-app="cbt"]::before      { background: #6b8c5c; }
+  .app-tile[data-app="tamma"]::before    { background: #b89a6a; }
+  .app-tile[data-app="poskirim"]::before { background: #5c7a8c; }
+  /* Tambah data-app baru sesuai kebutuhan */
+
+  /* ══════════════════════════════════════ */
+  /* FOOTER */
+  /* ══════════════════════════════════════ */
+  .footer {
+    font-size: 10px;
+    color: #b8a080;
+    text-align: center;
+    letter-spacing: 0.06em;
+    padding-top: 10px;
+  }
+
+  /* ══════════════════════════════════════ */
+  /* LOADING STATE */
+  /* ══════════════════════════════════════ */
+  .loading-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 0.3s ease;
+  }
+  .loading-spinner {
+    width: 28px; height: 28px;
+    border: 3px solid #ddd0b8;
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Stagger animasi tiles */
+  .app-tile:nth-child(1) { animation-delay: 0.15s; }
+  .app-tile:nth-child(2) { animation-delay: 0.22s; }
+  .app-tile:nth-child(3) { animation-delay: 0.29s; }
+  .app-tile:nth-child(4) { animation-delay: 0.36s; }
+  .app-tile:nth-child(5) { animation-delay: 0.43s; }
+  .app-tile:nth-child(6) { animation-delay: 0.50s; }
 </style>
 </head>
 <body>
 
-<div class="dashboard-container">
-  <!-- Header -->
-  <div class="dashboard-header">
-    <div class="logo-small">Creatify Studio</div>
-    <div class="user-info" id="userEmail">Loading...</div>
-  </div>
-
-  <!-- Welcome Banner -->
-  <div class="welcome-banner">
-    <h2>✨ Selamat Datang!</h2>
-    <p id="welcomeMessage">Kelola undangan digitalmu dengan mudah</p>
-  </div>
-
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon">📧</div>
-      <div class="stat-value" id="totalInvitations">3</div>
-      <div class="stat-label">Total Undangan</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">👥</div>
-      <div class="stat-value" id="totalRSVP">45</div>
-      <div class="stat-label">RSVP Masuk</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">👁️</div>
-      <div class="stat-value" id="totalViews">1.2k</div>
-      <div class="stat-label">Total Views</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">📅</div>
-      <div class="stat-value" id="upcomingEvents">2</div>
-      <div class="stat-label">Event Mendatang</div>
-    </div>
-  </div>
-
-  <!-- Invitation List -->
-  <div class="section-title">
-    <h3>📋 Undangan Terbaru</h3>
-  </div>
-  <div class="invitation-list" id="invitationList">
-    <div class="invitation-item">
-      <div class="invitation-info">
-        <h4>💍 Pernikahan Andi & Sari</h4>
-        <p>15 Mei 2026 · 45 Tamu</p>
-      </div>
-      <div class="invitation-status">Aktif</div>
-    </div>
-    <div class="invitation-item">
-      <div class="invitation-info">
-        <h4>🎂 Ulang Tahun ke-7</h4>
-        <p>20 Juni 2026 · 28 Tamu</p>
-      </div>
-      <div class="invitation-status">Aktif</div>
-    </div>
-    <div class="invitation-item">
-      <div class="invitation-info">
-        <h4>🏠 Syukuran Rumah Baru</h4>
-        <p>5 Juli 2026 · 12 Tamu</p>
-      </div>
-      <div class="invitation-status">Draft</div>
-    </div>
-  </div>
-
-  <!-- Action Buttons -->
-  <div class="action-buttons">
-    <button class="btn-primary" onclick="createNewInvitation()">+ Buat Undangan Baru</button>
-    <button class="btn-outline" onclick="viewAllInvitations()">Lihat Semua</button>
-  </div>
-
-  <button class="btn-logout" onclick="handleLogout()">🚪 Logout</button>
+<!-- Loading screen (hilang setelah auth check) -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
 </div>
 
-<script>
-  // Dashboard App
-  let currentUser = null;
+<div class="page" id="mainContent" style="display:none;">
 
-  function loadDashboard() {
-    // Ambil data user dari localStorage
-    const savedUser = localStorage.getItem('creatify_user');
-    
-    if (!savedUser) {
-      // Jika tidak ada session, redirect ke login
-      window.location.href = 'app-login.html';
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">
+      <div class="brand-logo">✦</div>
+      <span class="brand-name">Creatify</span>
+    </div>
+    <button class="logout-btn" onclick="handleLogout()">Keluar</button>
+  </div>
+
+  <!-- GREETING -->
+  <div class="greeting">
+    <div class="greeting-sub">Selamat datang,</div>
+    <div class="greeting-name" id="greetingName">Memuat<em>...</em></div>
+  </div>
+
+  <!-- APP LIST -->
+  <div class="section-label">Pilih Aplikasi</div>
+
+  <div class="app-grid" id="appGrid">
+
+    <!-- ════════════════════════════════════════════════════
+         ✏️  TEMPLATE TILE — DUPLIKAT BLOK INI UNTUK TAMBAH APP
+         
+         Ganti:
+           data-app   = id unik app (bebas, untuk styling)
+           href       = path / URL tujuan app kamu
+           tile-icon  = emoji atau karakter
+           tile-name  = nama app
+           tile-desc  = deskripsi singkat
+           tile-badge = label kecil (opsional, hapus kalau tidak perlu)
+         ════════════════════════════════════════════════════ -->
+
+    <a class="app-tile" data-app="cbt" href="/cbt-pro/index.html">
+      <span class="tile-icon">📝</span>
+      <div class="tile-name">CBT Pro</div>
+      <div class="tile-desc">Ujian berbasis komputer</div>
+      <span class="tile-badge">Aktif</span>
+    </a>
+
+    <a class="app-tile" data-app="tamma" href="/tamma/index.html">
+      <span class="tile-icon">📖</span>
+      <div class="tile-name">Tamma</div>
+      <div class="tile-desc">Setoran hafalan Quran</div>
+      <span class="tile-badge">Aktif</span>
+    </a>
+
+    <a class="app-tile" data-app="poskirim" href="/poskirim/index.html">
+      <span class="tile-icon">📦</span>
+      <div class="tile-name">PosKirim</div>
+      <div class="tile-desc">Manajemen pengiriman</div>
+      <span class="tile-badge">Aktif</span>
+    </a>
+
+    <!-- CONTOH APP KOSONG — hapus atau isi sesuai kebutuhan -->
+    <!--
+    <a class="app-tile" data-app="nama-app" href="/nama-app/index.html">
+      <span class="tile-icon">🎯</span>
+      <div class="tile-name">Nama App</div>
+      <div class="tile-desc">Deskripsi singkat app</div>
+      <span class="tile-badge">Aktif</span>
+    </a>
+    -->
+
+  </div>
+
+  <div class="footer">© 2026 Creatify · Karya digital untuk momen yang berarti</div>
+</div>
+
+<script type="module">
+  // ═══════════════════════════════════════════════════════════
+  // 🔧 FIREBASE CONFIG — Samakan dengan index.html utama
+  // ═══════════════════════════════════════════════════════════
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey:            "GANTI_API_KEY",
+    authDomain:        "GANTI_PROJECT_ID.firebaseapp.com",
+    projectId:         "GANTI_PROJECT_ID",
+    storageBucket:     "GANTI_PROJECT_ID.appspot.com",
+    messagingSenderId: "GANTI_MESSAGING_SENDER_ID",
+    appId:             "GANTI_APP_ID"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // ═══════════════════════════════════════════════════════════
+  // AUTH GUARD — Kalau belum login, balik ke landing page
+  // ═══════════════════════════════════════════════════════════
+  onAuthStateChanged(auth, (user) => {
+    const loading = document.getElementById('loadingScreen');
+    const content = document.getElementById('mainContent');
+
+    if (!user) {
+      // Belum login → redirect ke landing page tab App
+      window.location.href = '/#app';
       return;
     }
-    
-    currentUser = JSON.parse(savedUser);
-    
-    if (!currentUser.isLoggedIn) {
-      window.location.href = 'app-login.html';
-      return;
+
+    // Tampilkan nama user (pakai displayName, fallback ke email)
+    const nameEl = document.getElementById('greetingName');
+    const name   = user.displayName || user.email.split('@')[0];
+    nameEl.innerHTML = `${name}<em> ✦</em>`;
+
+    // Sembunyikan loading, tampilkan konten
+    loading.style.opacity = '0';
+    setTimeout(() => {
+      loading.style.display = 'none';
+      content.style.display = 'block';
+    }, 300);
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // LOGOUT
+  // ═══════════════════════════════════════════════════════════
+  window.handleLogout = async function() {
+    try {
+      await signOut(auth);
+      window.location.href = '/';
+    } catch (err) {
+      console.error('Logout error:', err);
     }
-    
-    // Update UI dengan data user
-    document.getElementById('userEmail').textContent = currentUser.email;
-    document.getElementById('welcomeMessage').textContent = `Halo ${currentUser.name || 'Pengguna'}! Kelola undangan digitalmu di sini.`;
-    
-    console.log('Dashboard loaded for:', currentUser.email);
-  }
-
-  function createNewInvitation() {
-    showNotification('✏️ Membuka builder undangan...', 'info');
-    setTimeout(() => {
-      showNotification('🎉 Fitur Builder Undangan akan segera hadir!', 'info');
-    }, 800);
-  }
-
-  function viewAllInvitations() {
-    showNotification('📋 Menampilkan semua undangan...', 'info');
-  }
-
-  function handleLogout() {
-    // Hapus session
-    localStorage.removeItem('creatify_user');
-    
-    showNotification('👋 Berhasil logout!', 'success');
-    
-    // Redirect ke halaman login
-    setTimeout(() => {
-      window.location.href = 'app-login.html';
-    }, 1000);
-  }
-
-  function showNotification(message, type = 'info') {
-    const oldNotif = document.querySelector('.notification');
-    if (oldNotif) oldNotif.remove();
-    
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
-      border-radius: 60px;
-      font-size: 13px;
-      font-weight: 500;
-      z-index: 1000;
-      animation: slideDown 0.3s ease;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      white-space: nowrap;
-      background: ${type === 'success' ? 'linear-gradient(135deg, #6b8c5c, #8baa7a)' : 'linear-gradient(135deg, var(--brown), #8b6946)'};
-      color: white;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-      notification.style.opacity = '0';
-      notification.style.transition = 'opacity 0.3s ease';
-      setTimeout(() => notification.remove(), 300);
-    }, 2500);
-  }
-
-  // Add animation style
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Load dashboard on page load
-  document.addEventListener('DOMContentLoaded', loadDashboard);
+  };
 </script>
 
 </body>
