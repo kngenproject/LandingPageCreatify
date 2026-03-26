@@ -10,9 +10,6 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>✦</text></svg>">
-
 <style>
   *, *::before, *::after { 
     margin: 0; 
@@ -105,6 +102,7 @@
     color: var(--deep);
     margin-bottom: 8px;
     transition: all 0.3s ease;
+    cursor: pointer;
   }
   .logo-pill:hover {
     transform: scale(1.05);
@@ -398,25 +396,6 @@
     transform: scale(0.98);
   }
 
-  .coming-badge {
-    display: inline-block;
-    margin-bottom: 12px;
-    padding: 3px 12px;
-    border-radius: 100px;
-    background: var(--blue-lt);
-    color: var(--deep);
-    font-size: 9.5px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 600;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-
   /* ══════════════════════════════════════ */
   /* FOOTER */
   /* ══════════════════════════════════════ */
@@ -441,6 +420,17 @@
     to { 
       opacity: 1; 
       transform: translateY(0); 
+    }
+  }
+
+  @keyframes slideDown {
+    from { 
+      opacity: 0; 
+      transform: translateX(-50%) translateY(-20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateX(-50%) translateY(0); 
     }
   }
 
@@ -498,7 +488,7 @@
   </div>
 
   <!-- PANEL: UNDANGAN DIGITAL -->
-  <div class="tab-panel active" id="tab-undangan" role="tabpanel" aria-labelledby="tab-undangan">
+  <div class="tab-panel active" id="tab-undangan" role="tabpanel">
     <div class="hero-card">
       <span class="hero-ikon" aria-hidden="true">💌</span>
       <h2>Undangan Digital<br><em>untuk momen yang Tak Terlupakan</em></h2>
@@ -524,19 +514,18 @@
   </div>
 
   <!-- PANEL: APP -->
-  <div class="tab-panel" id="tab-app" role="tabpanel" aria-labelledby="tab-app">
+  <div class="tab-panel" id="tab-app" role="tabpanel">
     <div class="app-card">
-      <span class="coming-badge" role="status">Segera Hadir</span>
       <span class="app-ikon" aria-hidden="true">📱</span>
       <h2>Creatify App</h2>
       <p>Kelola semua undangan digitalmu dalam satu aplikasi. Pantau RSVP real-time dan bagikan lewat WhatsApp langsung dari genggaman.</p>
       
       <button 
         class="app-btn" 
-        onclick="handleEarlyAccess()"
-        aria-label="Daftar Akses Awal Creatify App"
+        onclick="goToAppLogin()"
+        aria-label="Login ke Creatify App"
       >
-        Daftar Akses Awal
+        Login ke App
       </button>
     </div>
   </div>
@@ -546,28 +535,31 @@
 
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════ -->
-<!-- JAVASCRIPT -->
-<!-- ═══════════════════════════════════════════════════════════ -->
 <script>
   /**
-   * CREATIFY APP - JavaScript Core
-   * Path Integration & Tab Management System
+   * CREATIFY APP - Navigasi ke Path App yang terpisah
    */
 
   // ─────────────────────────────────────────────────────────
-  // CONFIGURATION & CONSTANTS
+  // CONFIGURATION - PATH DEFINITIONS
   // ─────────────────────────────────────────────────────────
   const APP_CONFIG = {
     name: 'Creatify',
     version: '1.0.0',
-    environment: 'production',
+    baseUrl: window.location.origin,
     paths: {
-      root: '/',
-      undangan: '/undangan/',
-      app: '/app/',
-      dashboard: '/dashboard/',
-      api: '/api/v1/',
+      // Path untuk halaman App
+      app: {
+        login: '/app/login',
+        dashboard: '/app/dashboard',
+        register: '/app/register',
+        forgotPassword: '/app/forgot-password'
+      },
+      // Path untuk Undangan
+      undangan: {
+        builder: '/undangan/builder',
+        templates: '/undangan/templates'
+      }
     }
   };
 
@@ -575,6 +567,11 @@
   // TAB SWITCHING SYSTEM
   // ─────────────────────────────────────────────────────────
   function switchTab(tabId) {
+    // Update URL hash
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, '', `#${tabId}`);
+    }
+    
     // Hide all panels
     document.querySelectorAll('.tab-panel').forEach(panel => {
       panel.classList.remove('active');
@@ -591,7 +588,6 @@
       const isActive = (index === 0 && tabId === 'undangan') || 
                        (index === 1 && tabId === 'app');
       btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-pressed', isActive);
     });
 
     // Store preference
@@ -601,42 +597,136 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // INVITATION SYSTEM
+  // NAVIGATION FUNCTIONS - REDIRECT KE PATH TERPISAH
   // ─────────────────────────────────────────────────────────
-  function handleCreateInvitation() {
-    const undanganPath = `${APP_CONFIG.paths.root}undangan/builder`;
+  
+  /**
+   * Navigasi ke halaman login app
+   * Ini akan redirect ke path /app/login
+   */
+  function goToAppLogin() {
+    const loginPath = APP_CONFIG.paths.app.login;
+    const fullUrl = `${APP_CONFIG.baseUrl}${loginPath}`;
     
-    console.log(`[${APP_CONFIG.name}] Creating invitation...`);
-    console.log(`Path: ${undanganPath}`);
+    console.log(`[${APP_CONFIG.name}] Redirecting to App Login: ${fullUrl}`);
+    
+    // Simpan referensi halaman sebelumnya
+    sessionStorage.setItem('returnTo', window.location.pathname);
+    
+    // Redirect ke halaman login app
+    // Untuk demo, kita tampilkan notifikasi karena ini adalah file HTML statis
+    // Di production, gunakan window.location.href
+    
+    // Cek apakah ini mode demo (file HTML)
+    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
+      showPathPreview('🔐 Redirect ke halaman login App', loginPath);
+    } else {
+      // Production: redirect sebenarnya
+      window.location.href = fullUrl;
+    }
+  }
 
-    // In production, redirect to undangan builder
-    // window.location.href = undanganPath;
+  /**
+   * Navigasi ke halaman dashboard app (setelah login)
+   */
+  function goToAppDashboard() {
+    const dashboardPath = APP_CONFIG.paths.app.dashboard;
+    const fullUrl = `${APP_CONFIG.baseUrl}${dashboardPath}`;
+    
+    console.log(`[${APP_CONFIG.name}] Redirecting to App Dashboard: ${fullUrl}`);
+    
+    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
+      showPathPreview('📊 Redirect ke dashboard App', dashboardPath);
+    } else {
+      window.location.href = fullUrl;
+    }
+  }
 
-    // For demo, show alert
-    showNotification('Fitur Undangan Digital telah siap!', 'success');
+  /**
+   * Navigasi ke halaman register app
+   */
+  function goToAppRegister() {
+    const registerPath = APP_CONFIG.paths.app.register;
+    const fullUrl = `${APP_CONFIG.baseUrl}${registerPath}`;
+    
+    console.log(`[${APP_CONFIG.name}] Redirecting to App Register: ${fullUrl}`);
+    
+    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
+      showPathPreview('📝 Redirect ke halaman registrasi App', registerPath);
+    } else {
+      window.location.href = fullUrl;
+    }
+  }
+
+  /**
+   * Navigasi ke undangan builder
+   */
+  function handleCreateInvitation() {
+    const builderPath = APP_CONFIG.paths.undangan.builder;
+    const fullUrl = `${APP_CONFIG.baseUrl}${builderPath}`;
+    
+    console.log(`[${APP_CONFIG.name}] Redirecting to Invitation Builder: ${fullUrl}`);
+    
+    if (window.location.protocol === 'file:' || document.location.pathname.includes('.html')) {
+      showPathPreview('✉️ Redirect ke builder undangan', builderPath);
+    } else {
+      window.location.href = fullUrl;
+    }
   }
 
   // ─────────────────────────────────────────────────────────
-  // APP ACCESS SYSTEM
+  // UTILITY: PREVIEW NAVIGASI (UNTUK DEMO MODE)
   // ─────────────────────────────────────────────────────────
-  function handleEarlyAccess() {
-    const appPath = `${APP_CONFIG.paths.root}app/waitlist`;
+  function showPathPreview(title, path) {
+    const preview = document.createElement('div');
+    preview.style.cssText = `
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--deep), #8b6946);
+      color: var(--white);
+      padding: 16px 28px;
+      border-radius: 60px;
+      font-size: 14px;
+      z-index: 10000;
+      animation: slideUp 0.4s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+      font-weight: 500;
+      pointer-events: none;
+      font-family: 'Nunito', sans-serif;
+    `;
     
-    console.log(`[${APP_CONFIG.name}] Registering for early access...`);
-    console.log(`Path: ${appPath}`);
-
-    // In production, redirect to waitlist
-    // window.location.href = appPath;
-
-    // For demo, show alert
-    showNotification('Terima kasih! Kamu sudah terdaftar untuk akses awal.', 'success');
+    preview.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;">
+        <span style="font-size: 24px;">🔗</span>
+        <div>
+          <div style="font-weight: bold; margin-bottom: 4px;">${title}</div>
+          <div style="font-size: 12px; opacity: 0.9; font-family: monospace;">${path}</div>
+        </div>
+      </div>
+      <div style="font-size: 10px; opacity: 0.7; margin-top: 8px;">
+        ⚡ Mode Demo - Di production akan redirect ke halaman ini
+      </div>
+    `;
+    
+    document.body.appendChild(preview);
+    
+    setTimeout(() => {
+      preview.style.opacity = '0';
+      preview.style.transform = 'translateX(-50%) translateY(20px)';
+      preview.style.transition = 'all 0.3s ease';
+      setTimeout(() => preview.remove(), 300);
+    }, 3000);
   }
 
   // ─────────────────────────────────────────────────────────
   // UTILITY: NOTIFICATIONS
   // ─────────────────────────────────────────────────────────
   function showNotification(message, type = 'info') {
-    // Create notification element
     const notification = document.createElement('div');
     notification.style.cssText = `
       position: fixed;
@@ -644,40 +734,38 @@
       left: 50%;
       transform: translateX(-50%);
       padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 14px;
-      z-index: 9999;
+      border-radius: 60px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 10001;
       animation: slideDown 0.3s ease;
       opacity: 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      font-family: 'Nunito', sans-serif;
     `;
 
-    // Set type-based styling
     if (type === 'success') {
-      notification.style.backgroundColor = '#6b4f2e';
-      notification.style.color = '#fdfaf5';
-      notification.textContent = '✓ ' + message;
+      notification.style.background = 'linear-gradient(135deg, #6b8c5c, #8baa7a)';
+      notification.style.color = 'white';
     } else if (type === 'error') {
-      notification.style.backgroundColor = '#d4a5a5';
-      notification.style.color = '#6b4f2e';
-      notification.textContent = '✗ ' + message;
+      notification.style.background = 'linear-gradient(135deg, #e07474, #c95a5a)';
+      notification.style.color = 'white';
     } else {
-      notification.style.backgroundColor = '#ede6d6';
-      notification.style.color = '#2c2118';
-      notification.textContent = 'ℹ ' + message;
+      notification.style.background = 'linear-gradient(135deg, var(--deep), #8b6946)';
+      notification.style.color = 'white';
     }
 
+    notification.textContent = message;
     document.body.appendChild(notification);
 
-    // Animate in
     setTimeout(() => {
       notification.style.opacity = '1';
     }, 10);
 
-    // Auto remove
     setTimeout(() => {
       notification.style.opacity = '0';
       setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    }, 2800);
   }
 
   // ─────────────────────────────────────────────────────────
@@ -685,47 +773,35 @@
   // ─────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function() {
     console.log(`%c${APP_CONFIG.name} v${APP_CONFIG.version}`, 'color: #b89a6a; font-weight: bold; font-size: 14px;');
-    console.log(`Environment: ${APP_CONFIG.environment}`);
-    console.log('App initialized successfully ✓');
-
-    // Restore previous tab preference if exists
+    console.log('Navigation System - Redirect to App Path ✓');
+    console.log('');
+    console.log('📌 Available Paths:');
+    console.log('  🔐 App Login:', APP_CONFIG.paths.app.login);
+    console.log('  📊 App Dashboard:', APP_CONFIG.paths.app.dashboard);
+    console.log('  📝 App Register:', APP_CONFIG.paths.app.register);
+    console.log('  ✉️ Undangan Builder:', APP_CONFIG.paths.undangan.builder);
+    console.log('');
+    console.log('ℹ️  Saat diklik, akan redirect ke path yang ditentukan');
+    
+    // Restore previous tab preference
     const previousTab = sessionStorage.getItem('activeTab');
-    if (previousTab) {
+    if (previousTab && (previousTab === 'undangan' || previousTab === 'app')) {
       switchTab(previousTab);
+    }
+    
+    // Check URL hash
+    const hash = window.location.hash.slice(1);
+    if (hash === 'undangan' || hash === 'app') {
+      switchTab(hash);
     }
   });
 
-  // ─────────────────────────────────────────────────────────
-  // KEYBOARD NAVIGATION
-  // ─────────────────────────────────────────────────────────
-  document.addEventListener('keydown', function(e) {
-    if (e.key === '1') switchTab('undangan');
-    if (e.key === '2') switchTab('app');
-  });
-
-  // ─────────────────────────────────────────────────────────
-  // SMOOTH SCROLL BEHAVIOR
-  // ─────────────────────────────────────────────────────────
-  document.documentElement.style.scrollBehavior = 'smooth';
-
-  // Add slideDown animation to styles
-  if (!document.querySelector('style[data-animation]')) {
-    const animStyle = document.createElement('style');
-    animStyle.setAttribute('data-animation', 'true');
-    animStyle.textContent = `
-      @keyframes slideDown {
-        from { 
-          opacity: 0; 
-          transform: translateX(-50%) translateY(-20px); 
-        }
-        to { 
-          opacity: 1; 
-          transform: translateX(-50%) translateY(0); 
-        }
-      }
-    `;
-    document.head.appendChild(animStyle);
-  }
+  // Expose global functions
+  window.switchTab = switchTab;
+  window.handleCreateInvitation = handleCreateInvitation;
+  window.goToAppLogin = goToAppLogin;
+  window.goToAppDashboard = goToAppDashboard;
+  window.goToAppRegister = goToAppRegister;
 </script>
 
 </body>
