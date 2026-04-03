@@ -31,7 +31,6 @@
     font-family: 'Nunito', sans-serif;
   }
 
-  /* Background blobs */
   body::before, body::after {
     content: '';
     position: fixed;
@@ -59,9 +58,6 @@
     padding: 0 20px 40px;
   }
 
-  /* ══════════════════════════════════════ */
-  /* HEADER */
-  /* ══════════════════════════════════════ */
   .header {
     display: flex;
     align-items: center;
@@ -113,9 +109,6 @@
     background: var(--blue-lt);
   }
 
-  /* ══════════════════════════════════════ */
-  /* GREETING */
-  /* ══════════════════════════════════════ */
   .greeting {
     padding: 24px 0 20px;
     opacity: 0;
@@ -144,9 +137,32 @@
     background-clip: text;
   }
 
-  /* ══════════════════════════════════════ */
-  /* SECTION LABEL */
-  /* ══════════════════════════════════════ */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid #ddd0b8;
+    box-shadow: var(--card-shadow);
+  }
+  .stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--blue);
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
   .section-label {
     font-size: 10px;
     font-weight: 700;
@@ -165,9 +181,6 @@
     background: #ddd0b8;
   }
 
-  /* ══════════════════════════════════════ */
-  /* APP GRID */
-  /* ══════════════════════════════════════ */
   .app-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -247,18 +260,12 @@
     border: 1px solid #c9aa82;
   }
 
-  /* ══════════════════════════════════════ */
-  /* ⬇⬇⬇  TAMBAH APP BARU DI SINI  ⬇⬇⬇  */
-  /* Warna aksen tiap tile (opsional)       */
-  /* ══════════════════════════════════════ */
+  .app-tile[data-app="undangan"]::before { background: #c26b4a; }
   .app-tile[data-app="tamma"]::before    { background: #b89a6a; }
   .app-tile[data-app="voteku"]::before   { background: #8c6b9e; }
   .app-tile[data-app="cbt"]::before      { background: #6b8c5c; }
   .app-tile[data-app="absensi"]::before  { background: #5c7a8c; }
 
-  /* ══════════════════════════════════════ */
-  /* FOOTER */
-  /* ══════════════════════════════════════ */
   .footer {
     font-size: 10px;
     color: #b8a080;
@@ -267,9 +274,6 @@
     padding-top: 10px;
   }
 
-  /* ══════════════════════════════════════ */
-  /* LOADING STATE */
-  /* ══════════════════════════════════════ */
   .loading-screen {
     position: fixed;
     inset: 0;
@@ -288,31 +292,26 @@
     animation: spin 0.7s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Stagger animasi tiles */
   .app-tile:nth-child(1) { animation-delay: 0.15s; }
   .app-tile:nth-child(2) { animation-delay: 0.22s; }
   .app-tile:nth-child(3) { animation-delay: 0.29s; }
   .app-tile:nth-child(4) { animation-delay: 0.36s; }
   .app-tile:nth-child(5) { animation-delay: 0.43s; }
-  .app-tile:nth-child(6) { animation-delay: 0.50s; }
 </style>
 </head>
 <body>
 
-<!-- Loading screen (hilang setelah auth check) -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-spinner"></div>
 </div>
 
 <div class="page" id="mainContent" style="display:none;">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="brand">
       <div class="brand-logo">✦</div>
@@ -321,29 +320,48 @@
     <button class="logout-btn" onclick="handleLogout()">Keluar</button>
   </div>
 
-  <!-- GREETING -->
   <div class="greeting">
     <div class="greeting-sub">Selamat datang,</div>
     <div class="greeting-name" id="greetingName">Memuat<em>...</em></div>
   </div>
 
-  <!-- APP LIST -->
+  <!-- STATISTIK -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number" id="totalUndangan">0</div>
+      <div class="stat-label">Total Undangan</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="totalViews">0</div>
+      <div class="stat-label">Total Views</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="totalRSVP">0</div>
+      <div class="stat-label">RSVP Masuk</div>
+    </div>
+  </div>
+
   <div class="section-label">Pilih Aplikasi</div>
 
   <div class="app-grid" id="appGrid">
 
-    <!-- ════════════════════════════════════════════════════
-         ✏️  TEMPLATE TILE — DUPLIKAT BLOK INI UNTUK TAMBAH APP
-         
-         Ganti:
-           data-app   = id unik app (bebas, untuk styling)
-           href       = path / URL tujuan app kamu
-           tile-icon  = emoji atau karakter
-           tile-name  = nama app
-           tile-desc  = deskripsi singkat
-           tile-badge = label kecil (opsional, hapus kalau tidak perlu)
-         ════════════════════════════════════════════════════ -->
+    <!-- Generator Undangan (arah ke root) -->
+    <a class="app-tile" data-app="undangan" href="/generator.html">
+      <span class="tile-icon">💌</span>
+      <div class="tile-name">Undangan Digital</div>
+      <div class="tile-desc">Buat & kelola undangan pernikahan</div>
+      <span class="tile-badge">Generator Link</span>
+    </a>
 
+    <!-- Admin Dashboard (arah ke root) -->
+    <a class="app-tile" data-app="undangan" href="/admin-dashboard.html">
+      <span class="tile-icon">📊</span>
+      <div class="tile-name">Admin Panel</div>
+      <div class="tile-desc">Lihat statistik & data tamu</div>
+      <span class="tile-badge">Dashboard</span>
+    </a>
+
+    <!-- Tamma -->
     <a class="app-tile" data-app="tamma" href="https://tahfidh-dan-absensi.web.app/">
       <span class="tile-icon">📖</span>
       <div class="tile-name">Tamma</div>
@@ -351,6 +369,7 @@
       <span class="tile-badge">Aktif</span>
     </a>
 
+    <!-- Voteku -->
     <a class="app-tile" data-app="voteku" href="https://kngenproject.github.io/voting-massal/">
       <span class="tile-icon">🗳️</span>
       <div class="tile-name">Voteku</div>
@@ -358,6 +377,7 @@
       <span class="tile-badge">Aktif</span>
     </a>
 
+    <!-- CBT Pro -->
     <a class="app-tile" data-app="cbt" href="https://cbt-sekolah-568d8.web.app/">
       <span class="tile-icon">📝</span>
       <div class="tile-name">CBT Pro</div>
@@ -365,6 +385,7 @@
       <span class="tile-badge">Aktif</span>
     </a>
 
+    <!-- Absensi QR -->
     <a class="app-tile" data-app="absensi" href="https://kngenproject.github.io/Absen-Siswa-QR/">
       <span class="tile-icon">📷</span>
       <div class="tile-name">AbsensiQR</div>
@@ -378,9 +399,6 @@
 </div>
 
 <script type="module">
-  // ═══════════════════════════════════════════════════════════
-  // 🔧 FIREBASE CONFIG — Samakan dengan index.html utama
-  // ═══════════════════════════════════════════════════════════
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
@@ -396,25 +414,31 @@
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // ═══════════════════════════════════════════════════════════
-  // AUTH GUARD — Kalau belum login, balik ke landing page
-  // ═══════════════════════════════════════════════════════════
+  function updateStats() {
+    const invitations = JSON.parse(localStorage.getItem('creatify_invitations') || '[]');
+    const views = JSON.parse(localStorage.getItem('creatify_views') || '[]');
+    const rsvp = JSON.parse(localStorage.getItem('creatify_rsvp') || '[]');
+
+    document.getElementById('totalUndangan').innerText = invitations.length;
+    document.getElementById('totalViews').innerText = views.length;
+    document.getElementById('totalRSVP').innerText = rsvp.length;
+  }
+
   onAuthStateChanged(auth, (user) => {
     const loading = document.getElementById('loadingScreen');
     const content = document.getElementById('mainContent');
 
     if (!user) {
-      // Belum login → redirect ke landing page tab App
-      window.location.href = '/#app';
+      window.location.href = '/';
       return;
     }
 
-    // Tampilkan nama user (pakai displayName, fallback ke email)
     const nameEl = document.getElementById('greetingName');
     const name   = user.displayName || user.email.split('@')[0];
     nameEl.innerHTML = `${name}<em> ✦</em>`;
 
-    // Sembunyikan loading, tampilkan konten
+    updateStats();
+
     loading.style.opacity = '0';
     setTimeout(() => {
       loading.style.display = 'none';
@@ -422,9 +446,12 @@
     }, 300);
   });
 
-  // ═══════════════════════════════════════════════════════════
-  // LOGOUT
-  // ═══════════════════════════════════════════════════════════
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'creatify_invitations' || e.key === 'creatify_views' || e.key === 'creatify_rsvp') {
+      updateStats();
+    }
+  });
+
   window.handleLogout = async function() {
     try {
       await signOut(auth);

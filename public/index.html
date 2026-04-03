@@ -683,21 +683,21 @@
   // ═══════════════════════════════════════════════════════════
   // 🗺️ PATH CONFIG — Sesuaikan dengan struktur folder kamu
   // ═══════════════════════════════════════════════════════════
-  const APP_CONFIG = {
-    name: 'Creatify',
-    version: '1.0.0',
-    paths: {
-      app: {
-        dashboard:      '/app/dashboard',
-        register:       '/app/register',
-        forgotPassword: '/app/forgot-password'
-      },
-      undangan: {
-        builder:   '/undangan/builder',
-        templates: '/undangan/templates'
-      }
+const APP_CONFIG = {
+  name: 'Creatify',
+  version: '1.0.0',
+  paths: {
+    app: {
+      dashboard:      '/app/dashboard',
+      register:       '/app/register',
+      forgotPassword: '/app/forgot-password'
+    },
+    undangan: {
+      builder:   '/generator.html',     // ← arahkan ke generator.html
+      templates: '/undangan/templates'
     }
-  };
+  }
+};
 
   // ═══════════════════════════════════════════════════════════
   // AUTH STATE — Redirect hanya saat baru login, bukan saat load
