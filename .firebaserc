@@ -1,8 +1,6 @@
 {
   "projects": {
     "default": "landing-page-creatify",
-    "production": "landing-page-creatify",
-    "landing-page": "landing-page-creatify"
   },
   "targets": {},
   "etags": {}
