@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Creatify - Karya digital untuk momen yang berarti. Buat undangan digital yang indah dengan animasi, RSVP, dan fitur lengkap.">
+<meta name="description" content="Creatify — Akses aplikasi undangan digital. Kelola acara, tamu, dan RSVP dalam satu platform.">
 <meta name="theme-color" content="#b89a6a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Creatify">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<title>Creatify - Undangan Digital & Aplikasi Manajemen Acara</title>
+<title>Creatify • Masuk ke App</title>
 
 <!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  *, *::before, *::after { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
   :root {
@@ -32,18 +32,22 @@
     --text:     #2c2118;
     --muted:    #9a8570;
     --white:    #fdfaf5;
+    --error-bg: #fef2f2;
+    --error-border: #f5c6c6;
+    --error-text: #c95a5a;
   }
 
   html, body {
     height: 100%;
     width: 100%;
-    overflow: hidden;
     background: var(--bg);
-    color: var(--text);
     font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
-  /* Gradient background blobs */
+  /* background elegance */
   body::before, body::after {
     content: '';
     position: fixed;
@@ -53,46 +57,40 @@
     z-index: 0;
   }
   body::before {
-    width: 320px; 
+    width: 320px;
     height: 320px;
-    top: -80px; 
+    top: -80px;
     right: -60px;
     background: radial-gradient(circle, #d4b89666, transparent 70%);
   }
   body::after {
-    width: 260px; 
+    width: 260px;
     height: 260px;
-    bottom: -60px; 
+    bottom: -60px;
     left: -40px;
     background: radial-gradient(circle, #c9a87866, transparent 70%);
   }
 
   .shell {
     position: relative;
-    z-index: 1;
-    height: 100dvh;
+    z-index: 2;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 5vh 22px 3vh;
-    max-width: 420px;
+    justify-content: center;
+    padding: 6vh 20px 5vh;
+    max-width: 500px;
     margin: 0 auto;
   }
 
-  /* ══════════════════════════════════════ */
-  /* TOP SECTION */
-  /* ══════════════════════════════════════ */
+  /* header */
   .top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
-    gap: 6px;
+    margin-bottom: 28px;
     opacity: 0;
-    animation: slideUp 0.7s 0.1s ease forwards;
+    animation: fadeUp 0.6s 0.1s forwards;
   }
-
   .logo-pill {
     display: inline-flex;
     align-items: center;
@@ -101,29 +99,22 @@
     border: 1.5px solid #c9aa82;
     padding: 4px 14px;
     border-radius: 100px;
-    font-size: 9.5px;
+    font-size: 10px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--deep);
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    margin-bottom: 12px;
   }
-  .logo-pill:hover {
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(180,140,90,0.2);
+  .logo-pill::before, .logo-pill::after {
+    content: '✦';
+    font-size: 6px;
+    color: var(--blue);
   }
-  .logo-pill::before, .logo-pill::after { 
-    content: '✦'; 
-    font-size: 6px; 
-    color: var(--blue); 
-  }
-
   h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(54px, 16vw, 90px);
+    font-size: clamp(60px, 15vw, 96px);
     font-weight: 600;
-    line-height: 0.9;
+    line-height: 0.95;
     letter-spacing: -0.02em;
     color: var(--text);
   }
@@ -131,435 +122,247 @@
     font-style: italic;
     background: linear-gradient(135deg, var(--blue), var(--sky));
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
-    display: inline;
+    -webkit-text-fill-color: transparent;
   }
-
-  .sub {
+  .tagline {
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 0.04em;
     color: var(--muted);
-    margin-top: 4px;
+    margin-top: 8px;
   }
 
-  .stem {
-    width: 1px;
-    height: 28px;
-    background: linear-gradient(to bottom, transparent, var(--blue), transparent);
-    flex-shrink: 0;
-    opacity: 0;
-    animation: slideUp 0.6s 0.3s ease forwards;
-  }
-
-  /* ══════════════════════════════════════ */
-  /* TAB NAVIGATION */
-  /* ══════════════════════════════════════ */
-  .tab-nav {
-    display: flex;
-    background: var(--blue-lt);
-    border-radius: 100px;
-    padding: 4px;
-    width: fit-content;
-    flex-shrink: 0;
-    gap: 2px;
-    opacity: 0;
-    animation: slideUp 0.7s 0.4s ease forwards;
-    border: 1px solid #c9aa82;
-  }
-
-  .tab-btn {
-    padding: 9px 22px;
-    border-radius: 100px;
-    border: none;
-    background: transparent;
-    font-family: 'Nunito', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-  }
-
-  .tab-btn:hover {
-    color: var(--deep);
-  }
-
-  .tab-btn.active {
-    background: linear-gradient(135deg, var(--blue), var(--sky));
-    color: white;
-    box-shadow: 0 4px 16px rgba(180,140,90,0.35);
-  }
-
-  /* ══════════════════════════════════════ */
-  /* TAB PANELS */
-  /* ══════════════════════════════════════ */
-  .tab-panel { 
-    display: none; 
-    width: 100%; 
-    opacity: 0;
-  }
-  .tab-panel.active {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 1;
-    animation: panelSlideIn 0.4s ease forwards;
-  }
-
-  @keyframes panelSlideIn {
-    from { 
-      opacity: 0; 
-      transform: translateY(10px); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-  }
-
-  /* ══════════════════════════════════════ */
-  /* HERO CARD (UNDANGAN DIGITAL) */
-  /* ══════════════════════════════════════ */
-  .hero-card {
+  /* login card utama */
+  .login-card {
     background: var(--white);
-    border-radius: 28px;
-    padding: 26px 26px 22px;
-    text-align: center;
+    border-radius: 36px;
+    padding: 32px 28px;
     width: 100%;
-    box-shadow: 0 8px 40px rgba(120,90,50,0.12), 0 2px 8px rgba(120,90,50,0.07);
-    border: 1px solid #ddd0b8;
-    position: relative;
-    overflow: hidden;
-    opacity: 0;
-    animation: slideUp 0.8s 0.5s ease forwards;
-  }
-
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    top: -40px; 
-    right: -40px;
-    width: 160px; 
-    height: 160px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ede0c8, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-card::after {
-    content: '✉';
-    position: absolute;
-    bottom: -4px; 
-    left: 16px;
-    font-size: 72px;
-    opacity: 0.06;
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .hero-ikon {
-    font-size: 34px;
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  .hero-card h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(22px, 5.5vw, 28px);
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    margin-bottom: 10px;
-  }
-  .hero-card h2 em {
-    font-style: italic;
-    background: linear-gradient(135deg, var(--blue), var(--sky));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-card p {
-    font-size: 12px;
-    line-height: 1.65;
-    color: var(--muted);
-    font-weight: 400;
-    margin-bottom: 18px;
-  }
-
-  .hero-btn {
-    display: inline-block;
-    padding: 11px 30px;
-    background: linear-gradient(135deg, var(--blue), var(--sky));
-    color: white;
-    border-radius: 100px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 18px rgba(150,110,60,0.4);
-    border: none;
-    cursor: pointer;
-  }
-  .hero-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(150,110,60,0.5);
-  }
-  .hero-btn:active {
-    transform: translateY(0px);
-  }
-
-  .features {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 14px;
-  }
-
-  .fpill {
-    padding: 4px 11px;
-    border-radius: 100px;
-    background: var(--sky-lt);
-    border: 1px solid #c9b08a;
-    font-size: 10px;
-    color: var(--deep);
-    letter-spacing: 0.02em;
-    font-weight: 500;
+    box-shadow: 0 20px 40px rgba(80, 60, 35, 0.1), 0 4px 12px rgba(0,0,0,0.02);
+    border: 1px solid #e4d5c2;
     transition: all 0.2s ease;
-  }
-  .fpill:hover {
-    background: var(--blue-lt);
-    border-color: var(--blue);
-  }
-
-  /* ══════════════════════════════════════ */
-  /* APP CARD - LOGIN FORM */
-  /* ══════════════════════════════════════ */
-  .app-card {
-    background: var(--white);
-    border-radius: 28px;
-    padding: 28px 26px 24px;
-    text-align: center;
-    width: 100%;
-    box-shadow: 0 8px 40px rgba(120,90,50,0.10);
-    border: 1px solid #ddd0b8;
     opacity: 0;
-    animation: slideUp 0.8s 0.5s ease forwards;
+    animation: fadeUp 0.7s 0.2s forwards;
   }
 
-  .app-ikon { 
-    font-size: 30px; 
-    display: block; 
-    margin-bottom: 8px; 
+  .card-icon {
+    font-size: 48px;
+    text-align: center;
+    display: block;
+    margin-bottom: 8px;
   }
 
-  .app-card h2 {
+  .login-card h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 600;
+    text-align: center;
     color: var(--text);
-    margin-bottom: 4px;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+  .login-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
   }
 
-  .app-card .app-sub {
-    font-size: 11px;
-    color: var(--muted);
+  /* form */
+  .form-group {
     margin-bottom: 18px;
   }
-
-  /* Login Form */
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: left;
+  .input-label {
+    font-size: 12px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: var(--deep);
   }
-
-  .login-form input {
+  .login-card input {
     width: 100%;
-    padding: 11px 16px;
-    border-radius: 14px;
-    border: 1.5px solid #ddd0b8;
-    background: var(--bg);
+    padding: 14px 18px;
+    background: #fefaf5;
+    border: 1.5px solid #e2cfbb;
+    border-radius: 24px;
     font-family: 'Nunito', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     color: var(--text);
+    transition: 0.2s;
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
-  .login-form input:focus {
+  .login-card input:focus {
     border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(184,154,106,0.15);
+    box-shadow: 0 0 0 3px rgba(184,154,106,0.2);
+    background: white;
   }
-  .login-form input::placeholder {
-    color: var(--muted);
+  .login-card input::placeholder {
+    color: #cbbca8;
   }
 
   .login-btn {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background: linear-gradient(135deg, var(--blue), var(--sky));
-    color: white;
     border: none;
-    border-radius: 14px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 13px;
+    border-radius: 40px;
+    color: white;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    font-size: 15px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.02em;
     cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 16px rgba(180,140,90,0.35);
-    margin-top: 4px;
+    transition: all 0.25s;
+    margin-top: 6px;
+    box-shadow: 0 8px 18px rgba(150,110,70,0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
   }
   .login-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 22px rgba(180,140,90,0.45);
+    transform: translateY(-2px);
+    filter: brightness(1.02);
+    box-shadow: 0 12px 26px rgba(150,110,70,0.35);
   }
   .login-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
   }
   .login-btn:disabled {
     opacity: 0.7;
-    cursor: not-allowed;
     transform: none;
+    cursor: default;
+    box-shadow: none;
   }
 
-  .login-divider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 4px 0;
-  }
-  .login-divider::before, .login-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #ddd0b8;
-  }
-  .login-divider span {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .login-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 6px;
-  }
-  .login-link {
-    font-size: 11px;
-    color: var(--blue);
-    cursor: pointer;
-    text-decoration: none;
-    transition: color 0.2s;
-    background: none;
-    border: none;
-    font-family: 'Nunito', sans-serif;
-    padding: 0;
-  }
-  .login-link:hover {
-    color: var(--deep);
-    text-decoration: underline;
-  }
-
-  /* Login spinner */
   .spinner {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(255,255,255,0.4);
     border-top-color: white;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
 
-  /* Error message */
-  .login-error {
-    font-size: 11px;
-    color: #c95a5a;
-    background: #fef2f2;
-    border: 1px solid #f5c6c6;
-    border-radius: 10px;
-    padding: 8px 12px;
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-message {
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 12px;
+    color: var(--error-text);
+    margin-bottom: 18px;
     text-align: center;
     display: none;
   }
-  .login-error.show {
+  .error-message.show {
     display: block;
   }
 
-  /* ══════════════════════════════════════ */
-  /* FOOTER */
-  /* ══════════════════════════════════════ */
-  footer {
-    font-size: 10px;
-    color: #b8a080;
-    letter-spacing: 0.08em;
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 12px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2cfbb;
+  }
+  .divider span {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .action-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .link-btn {
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: 0.2s;
+    padding: 5px 0;
+  }
+  .link-btn:hover {
+    color: var(--deep);
+    text-decoration: underline;
+  }
+
+  .invite-helper {
     text-align: center;
-    flex-shrink: 0;
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px dashed #e2cfbb;
+  }
+  .helper-text {
+    font-size: 12px;
+    color: #b09478;
+    margin-bottom: 8px;
+  }
+  .pill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f3ecdf;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8e6a48;
+    text-decoration: none;
+    transition: 0.2s;
+    border: 1px solid #dccdb8;
+  }
+  .pill-link:hover {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+  }
+
+  /* footer */
+  footer {
+    margin-top: 32px;
+    font-size: 10px;
+    color: #bbaa94;
+    text-align: center;
+    letter-spacing: 0.06em;
     opacity: 0;
-    animation: slideUp 0.6s 0.7s ease forwards;
+    animation: fadeUp 0.5s 0.3s forwards;
   }
 
-  /* ══════════════════════════════════════ */
-  /* ANIMATIONS */
-  /* ══════════════════════════════════════ */
-  @keyframes slideUp {
-    from { 
-      opacity: 0; 
-      transform: translateY(14px); 
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
     }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  @keyframes slideDown {
-    from { 
-      opacity: 0; 
-      transform: translateX(-50%) translateY(-20px); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateX(-50%) translateY(0); 
-    }
-  }
-
-  /* ══════════════════════════════════════ */
-  /* RESPONSIVE */
-  /* ══════════════════════════════════════ */
-  @media (max-height: 650px) {
+  /* responsive */
+  @media (max-width: 480px) {
     .shell {
-      padding: 3vh 22px 2vh;
+      padding: 4vh 16px;
     }
-    .hero-card, .app-card {
-      padding: 20px 20px 16px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+    .login-card {
+      padding: 24px 20px;
     }
   }
 </style>
@@ -567,109 +370,55 @@
 <body>
 
 <div class="shell">
-
-  <!-- TOP SECTION -->
   <div class="top">
     <div class="logo-pill">Studio Digital</div>
     <h1>Creat<em>ify</em></h1>
-    <p class="sub">Karya digital untuk momen yang berarti</p>
+    <div class="tagline">Kelola acara & undangan dalam satu app</div>
   </div>
 
-  <!-- DECORATIVE STEM -->
-  <div class="stem"></div>
+  <!-- LOGIN CARD INTI -->
+  <div class="login-card">
+    <span class="card-icon">🔐✨</span>
+    <h2>Masuk ke App</h2>
+    <div class="login-sub">Gunakan akun Creatifymu</div>
 
-  <!-- TAB NAVIGATION -->
-  <div class="tab-nav">
-    <button 
-      class="tab-btn active" 
-      onclick="switchTab('undangan')"
-      aria-label="Tab Undangan Digital"
-    >
-      ✉ Undangan Digital
-    </button>
-    <button 
-      class="tab-btn" 
-      onclick="switchTab('app')"
-      aria-label="Tab App"
-    >
-      ⬡ App
-    </button>
-  </div>
+    <div id="loginErrorBox" class="error-message"></div>
 
-  <!-- PANEL: UNDANGAN DIGITAL -->
-  <div class="tab-panel active" id="tab-undangan" role="tabpanel">
-    <div class="hero-card">
-      <span class="hero-ikon" aria-hidden="true">💌</span>
-      <h2>Undangan Digital<br><em>untuk momen yang Tak Terlupakan</em></h2>
-      <p>Pernikahan, walimah, khitanan, ulang tahun — cukup satu link, tamu langsung tahu segalanya.</p>
-      
-      <button 
-        class="hero-btn" 
-        onclick="handleCreateInvitation()"
-        aria-label="Buat Undangan Digital Sekarang"
-      >
-        Buat Undangan Sekarang
+    <div class="form-group">
+      <label class="input-label">Email</label>
+      <input type="email" id="emailInput" placeholder="contoh@email.com" autocomplete="email" inputmode="email">
+    </div>
+    <div class="form-group">
+      <label class="input-label">Kata Sandi</label>
+      <input type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password">
+    </div>
+
+    <button class="login-btn" id="loginButton">
+      Masuk ke Dashboard
+    </button>
+
+    <div class="divider"><span>atau</span></div>
+
+    <div class="action-links">
+      <button class="link-btn" id="registerBtn">📝 Daftar akun baru</button>
+      <button class="link-btn" id="forgotBtn">❓ Lupa password?</button>
+    </div>
+
+    <!-- link ringan ke pembuat undangan (akses cepat) -->
+    <div class="invite-helper">
+      <div class="helper-text">💡 Belum punya undangan digital?</div>
+      <button class="pill-link" id="quickInviteBtn">
+        ✨ Buat Undangan Sekarang
       </button>
-
-      <div class="features" role="list">
-        <span class="fpill" role="listitem">✦ Animasi Halus</span>
-        <span class="fpill" role="listitem">✦ RSVP Digital</span>
-        <span class="fpill" role="listitem">✦ Galeri Foto</span>
-        <span class="fpill" role="listitem">✦ Countdown Hari H</span>
-        <span class="fpill" role="listitem">✦ Peta Lokasi</span>
-        <span class="fpill" role="listitem">✦ QR Code</span>
-      </div>
+      <div style="font-size: 10px; margin-top: 10px; color: #b8a080;">Gratis & mudah, tanpa login terlebih dahulu</div>
     </div>
   </div>
 
-  <!-- PANEL: APP (LOGIN FORM) -->
-  <div class="tab-panel" id="tab-app" role="tabpanel">
-    <div class="app-card">
-      <span class="app-ikon" aria-hidden="true">🔐</span>
-      <h2>Masuk ke App</h2>
-      <p class="app-sub">Gunakan akun Creatify kamu</p>
-
-      <div class="login-form">
-        <div id="loginError" class="login-error"></div>
-
-        <input 
-          type="email" 
-          id="loginEmail" 
-          placeholder="Email" 
-          autocomplete="email"
-          inputmode="email"
-        />
-        <input 
-          type="password" 
-          id="loginPassword" 
-          placeholder="Password"
-          autocomplete="current-password"
-        />
-
-        <button class="login-btn" id="loginBtn" onclick="handleLogin()">
-          Masuk
-        </button>
-
-        <div class="login-divider"><span>atau</span></div>
-
-        <div class="login-footer">
-          <button class="login-link" onclick="goToAppRegister()">Daftar akun baru</button>
-          <button class="login-link" onclick="goToForgotPassword()">Lupa password?</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>© 2026 Creatify · Dibuat dengan ✦ untuk momen yang berarti</footer>
-
+  <footer>© 2026 Creatify · platform undangan digital & manajemen acara</footer>
 </div>
 
 <script type="module">
-  // ═══════════════════════════════════════════════════════════
-  // 🔧 FIREBASE CONFIG — GANTI DENGAN CONFIG PROJECT KAMU
-  // Dapatkan di: Firebase Console → Project Settings → Web App
-  // ═══════════════════════════════════════════════════════════
+  // ======================= FIREBASE CONFIG =======================
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
@@ -682,162 +431,142 @@
     appId:             "1:142614580975:web:368ba820dbfc5f69ca151a"
   };
 
-  const app  = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // ═══════════════════════════════════════════════════════════
-  // 🗺️ PATH CONFIG — Sesuaikan dengan struktur folder kamu
-  // ═══════════════════════════════════════════════════════════
-const APP_CONFIG = {
-  name: 'Creatify',
-  version: '1.0.0',
-  paths: {
-    app: {
-      dashboard:      '/app/dashboard',
-      register:       '/app/register',
-      forgotPassword: '/app/forgot-password'
-    },
-    undangan: {
-      builder:   '/undangan.html',     // ← arahkan ke generator.html
-      templates: '/undangan/templates'
-    }
-  }
-};
+  // ======================= APP PATHS =======================
+  const APP_PATHS = {
+    dashboard:      '/app/dashboard/',
+    register:       '/app/register/',
+    forgotPassword: '/app/forgot-password/',
+    invitationBuilder: '/undangan.html'     // generator link undangan
+  };
 
-  // ═══════════════════════════════════════════════════════════
-  // AUTH STATE — Redirect hanya saat baru login, bukan saat load
-  // ═══════════════════════════════════════════════════════════
-  let isFirstAuthCheck = true;
+  // ======================= AUTH STATE (redirect jika sudah login) =======================
+  let isFirstCheck = true;
   onAuthStateChanged(auth, (user) => {
-    if (isFirstAuthCheck) {
-      isFirstAuthCheck = false;
-      return; // Abaikan pengecekan pertama saat halaman load
+    if (isFirstCheck) {
+      isFirstCheck = false;
+      // Jangan redirect saat pertama load, biarkan user tetap di halaman login.
+      return;
     }
     if (user) {
-      // Baru login → redirect ke dashboard
-      window.location.href = APP_CONFIG.paths.app.dashboard;
+      // user baru login -> redirect ke dashboard
+      window.location.href = APP_PATHS.dashboard;
     }
   });
 
-  // ═══════════════════════════════════════════════════════════
-  // HANDLE LOGIN
-  // ═══════════════════════════════════════════════════════════
-  window.handleLogin = async function() {
-    const email    = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const btn      = document.getElementById('loginBtn');
-    const errEl    = document.getElementById('loginError');
+  // ======================= UI ELEMENTS =======================
+  const emailInput = document.getElementById('emailInput');
+  const passwordInput = document.getElementById('passwordInput');
+  const loginBtn = document.getElementById('loginButton');
+  const errorBox = document.getElementById('loginErrorBox');
+  const registerBtn = document.getElementById('registerBtn');
+  const forgotBtn = document.getElementById('forgotBtn');
+  const quickInviteBtn = document.getElementById('quickInviteBtn');
 
-    // Reset error
-    errEl.classList.remove('show');
+  // helpers
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.classList.add('show');
+    setTimeout(() => {
+      errorBox.classList.remove('show');
+    }, 3800);
+  }
 
-    // Validasi
+  function clearError() {
+    errorBox.classList.remove('show');
+    errorBox.textContent = '';
+  }
+
+  function getFirebaseErrorMessage(code) {
+    const map = {
+      'auth/invalid-email':        'Format email tidak valid.',
+      'auth/user-not-found':       'Email tidak terdaftar.',
+      'auth/wrong-password':       'Password salah. Coba lagi.',
+      'auth/invalid-credential':   'Email atau password salah.',
+      'auth/too-many-requests':    'Terlalu banyak percobaan. Tunggu sebentar.',
+      'auth/user-disabled':        'Akun telah dinonaktifkan.',
+      'auth/network-request-failed': 'Gagal terhubung ke server. Cek internet.',
+    };
+    return map[code] || 'Login gagal, periksa email & password.';
+  }
+
+  // ======================= LOGIN HANDLER =======================
+  async function handleLogin() {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
     if (!email || !password) {
-      showLoginError('Email dan password wajib diisi.');
+      showError('Email dan password harus diisi.');
       return;
     }
 
-    // Loading state
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner"></div> Masuk...';
+    clearError();
+
+    // UI loading
+    loginBtn.disabled = true;
+    const originalBtnText = loginBtn.innerHTML;
+    loginBtn.innerHTML = '<div class="spinner"></div> Memeriksa...';
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // onAuthStateChanged akan handle redirect ke dashboard
-    } catch (err) {
-      btn.disabled = false;
-      btn.innerHTML = 'Masuk';
-      showLoginError(getFirebaseErrorMsg(err.code));
+      // onAuthStateChanged akan handle redirect setelah login sukses
+      // (tapi kita tidak perlu redirect manual karena observer akan melakukan redirect)
+      // Namun karena observer memiliki flag firstCheck = false, setelah login sukses akan redirect.
+      // Catatan: ketika signIn berhasil, observer akan terpanggil dengan user != null, kemudian arahkan ke dashboard.
+    } catch (error) {
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = originalBtnText;
+      const friendlyMsg = getFirebaseErrorMessage(error.code);
+      showError(friendlyMsg);
+      console.warn(error.code);
     }
-  };
-
-  function showLoginError(msg) {
-    const el = document.getElementById('loginError');
-    el.textContent = msg;
-    el.classList.add('show');
   }
 
-  // Terjemahan pesan error Firebase ke Bahasa Indonesia
-  function getFirebaseErrorMsg(code) {
-    const msgs = {
-      'auth/invalid-email':        'Format email tidak valid.',
-      'auth/user-not-found':       'Akun tidak ditemukan.',
-      'auth/wrong-password':       'Password salah.',
-      'auth/invalid-credential':   'Email atau password salah.',
-      'auth/too-many-requests':    'Terlalu banyak percobaan. Coba lagi nanti.',
-      'auth/user-disabled':        'Akun ini dinonaktifkan.',
-      'auth/network-request-failed': 'Koneksi gagal. Periksa internet kamu.',
-    };
-    return msgs[code] || 'Login gagal. Coba lagi.';
+  // ======================= NAVIGATION =======================
+  function goToRegister() {
+    window.location.href = APP_PATHS.register;
+  }
+  function goToForgot() {
+    window.location.href = APP_PATHS.forgotPassword;
+  }
+  function goToInvitationBuilder() {
+    window.location.href = APP_PATHS.invitationBuilder;
   }
 
-  // ═══════════════════════════════════════════════════════════
-  // NAVIGASI
-  // ═══════════════════════════════════════════════════════════
-  window.goToAppRegister = function() {
-    window.location.href = APP_CONFIG.paths.app.register;
-  };
+  // ======================= EVENT LISTENERS =======================
+  loginBtn.addEventListener('click', handleLogin);
+  registerBtn.addEventListener('click', goToRegister);
+  forgotBtn.addEventListener('click', goToForgot);
+  quickInviteBtn.addEventListener('click', goToInvitationBuilder);
 
-  window.goToForgotPassword = function() {
-    window.location.href = APP_CONFIG.paths.app.forgotPassword;
-  };
-
-  window.handleCreateInvitation = function() {
-    window.location.href = APP_CONFIG.paths.undangan.builder;
-  };
-
-  // ═══════════════════════════════════════════════════════════
-  // TAB SWITCHING
-  // ═══════════════════════════════════════════════════════════
-  window.switchTab = function(tabId) {
-    if (window.history && window.history.pushState) {
-      window.history.pushState(null, '', `#${tabId}`);
-    }
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    const panel = document.getElementById(`tab-${tabId}`);
-    if (panel) panel.classList.add('active');
-
-    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-      const isActive = (i === 0 && tabId === 'undangan') || (i === 1 && tabId === 'app');
-      btn.classList.toggle('active', isActive);
-    });
-
-    sessionStorage.setItem('activeTab', tabId);
-
-    // Focus email input saat tab App aktif
-    if (tabId === 'app') {
-      setTimeout(() => document.getElementById('loginEmail')?.focus(), 400);
-    }
-  };
-
-  // Enter key pada form login
-  document.addEventListener('keydown', (e) => {
+  // enter key submit
+  const handleEnter = (e) => {
     if (e.key === 'Enter') {
-      const activeTab = sessionStorage.getItem('activeTab');
-      if (activeTab === 'app' || document.getElementById('tab-app').classList.contains('active')) {
-        window.handleLogin();
-      }
+      e.preventDefault();
+      handleLogin();
     }
-  });
+  };
+  emailInput.addEventListener('keypress', handleEnter);
+  passwordInput.addEventListener('keypress', handleEnter);
 
-  // ═══════════════════════════════════════════════════════════
-  // INIT
-  // ═══════════════════════════════════════════════════════════
-  document.addEventListener('DOMContentLoaded', () => {
-    const hash = window.location.hash.slice(1);
-    const prev = sessionStorage.getItem('activeTab');
-    const tab  = (hash === 'undangan' || hash === 'app') ? hash : (prev || 'undangan');
-    window.switchTab(tab);
-  });
+  // sedikit sentuhan: auto focus email
+  setTimeout(() => {
+    emailInput.focus();
+  }, 200);
+
+  // optional: styling untuk card lebih mulus
+  console.log("✨ Creatify — Login App siap digunakan");
 </script>
 
-<!-- ✅ REGISTRASI SERVICE WORKER (PWA) -->
+<!-- PWA service worker (opsional, tetap support offline) -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js')
-        .then(reg => console.log('✅ Service Worker registered:', reg.scope))
-        .catch(err => console.error('❌ Service Worker registration failed:', err));
+        .then(reg => console.log('✅ SW registered:', reg.scope))
+        .catch(err => console.log('❌ SW error:', err));
     });
   }
 </script>
