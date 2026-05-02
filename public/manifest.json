@@ -1,0 +1,25 @@
+{
+  "name": "Creatify - Undangan Digital",
+  "short_name": "Creatify",
+  "description": "Buat undangan digital elegan dengan RSVP, galeri, dan fitur lengkap untuk momen spesial Anda.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#b89a6a",
+  "background_color": "#f5f0e8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

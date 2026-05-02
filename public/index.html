@@ -2,9 +2,14 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Creatify - Karya digital untuk momen yang berarti. Buat undangan digital yang indah dengan animasi, RSVP, dan fitur lengkap.">
 <meta name="theme-color" content="#b89a6a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Creatify">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 <title>Creatify - Undangan Digital & Aplikasi Manajemen Acara</title>
 
 <!-- Google Fonts -->
@@ -826,5 +831,15 @@ const APP_CONFIG = {
   });
 </script>
 
+<!-- ✅ REGISTRASI SERVICE WORKER (PWA) -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+        .catch(err => console.error('❌ Service Worker registration failed:', err));
+    });
+  }
+</script>
 </body>
 </html>
