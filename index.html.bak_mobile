@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creatify OS - Hub Dashboard</title>
+    <!-- Google Fonts & Tailwind CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b0f17;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.3);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-4 lg:px-8 py-3.5 mb-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-violet-500 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                    <i data-lucide="layout-grid" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg text-white tracking-tight flex items-center gap-2">
+                        CREATIFY <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-semibold border border-brand-500/30">SERVER OS</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Infinix Note 30 Node Active
+                    </p>
+                </div>
+            </div>
+
+            <!-- SEARCH & FILTER -->
+            <div class="flex items-center gap-3">
+                <div class="relative w-full md:w-64">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Cari aplikasi..." 
+                        class="w-full pl-10 pr-4 py-2 bg-slate-900/80 border border-slate-700/60 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 transition-all">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 w-full flex-grow mb-12">
+        
+        <!-- CATEGORY FILTERS -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-none text-xs">
+            <button onclick="filterApp('all')" class="filter-btn active px-4 py-2 rounded-xl bg-brand-600 text-white font-medium transition-all">Semua</button>
+            <button onclick="filterApp('edukasi')" class="filter-btn px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 font-medium transition-all">Edukasi & Absensi</button>
+            <button onclick="filterApp('utility')" class="filter-btn px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 font-medium transition-all">Sistem & Tools</button>
+            <button onclick="filterApp('media')" class="filter-btn px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 font-medium transition-all">Media & Islami</button>
+        </div>
+
+        <!-- APP GRID -->
+        <div id="appGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+            <!-- Edukasi & Absensi -->
+            <a href="/absen/" data-category="edukasi" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="user-check" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Absensi</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Absen Utama</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Sistem manajemen kehadiran siswa dan harian.</p>
+                </div>
+            </a>
+
+            <a href="/absen-tahfidh/" data-category="edukasi" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Tahfidh</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Absen Tahfidh</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Pencatatan presensi khusus hafalan Al-Qur'an.</p>
+                </div>
+            </a>
+
+            <a href="/tahfidh-absensi/" data-category="edukasi" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Tahfidh</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Tahfidh Rekap</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Portal rekapitulasi data santri dan hafalan.</p>
+                </div>
+            </a>
+
+            <a href="/cbt/" data-category="edukasi" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Ujian</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">CBT Sekolah</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Aplikasi Ujian Berbasis Komputer & HP.</p>
+                </div>
+            </a>
+
+            <a href="/voting/" data-category="edukasi" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="vote" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">E-Vote</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">E-Voting</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Pemilihan online cepat, transparan, dan akurat.</p>
+                </div>
+            </a>
+
+            <!-- Utility & Tools -->
+            <a href="/kasir/" data-category="utility" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">POS</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Sistem Kasir</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Aplikasi Point of Sales transaksi toko.</p>
+                </div>
+            </a>
+
+            <a href="/chat/" data-category="utility" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="message-square" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Komunikasi</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Aplikasi Chat</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Pesan instan & komunikasi internal lokal.</p>
+                </div>
+            </a>
+
+            <a href="/notepad/" data-category="utility" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Catatan</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Web Notepad</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Catatan teks cepat & penyimpanan dokumen.</p>
+                </div>
+            </a>
+
+            <a href="/capacitor-builder/" data-category="utility" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">DevTools</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Capacitor Builder</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Build & konversi web app ke Android APK.</p>
+                </div>
+            </a>
+
+            <!-- Media & Islami -->
+            <a href="/yasin/" data-category="media" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="book" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Islami</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Surat Yasin</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Bacaan digital Surat Yasin & doa lengkap.</p>
+                </div>
+            </a>
+
+            <a href="/tahlil-vue/" data-category="media" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Islami</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Tahlil Vue</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Teks susunan tahlil berbasis Vue.js.</p>
+                </div>
+            </a>
+
+            <a href="/acaraplay/" data-category="media" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="play-circle" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Media</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Acara Play</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Pemutar media audio & video acara resmi.</p>
+                </div>
+            </a>
+
+            <a href="/music-player/" data-category="media" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Media</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Music Player</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Streaming musik web interaktif.</p>
+                </div>
+            </a>
+
+            <a href="/iklan-tv/" data-category="media" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="tv" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Display</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Iklan TV Display</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Display running text & banner TV digital.</p>
+                </div>
+            </a>
+
+            <a href="/twibbon/" data-category="media" class="app-card glass-card p-5 rounded-2xl flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="p-3 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 group-hover:scale-110 transition-transform">
+                        <i data-lucide="image" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Desain</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-brand-400 transition-colors">Twibbon Maker</h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">Pembuat bingkai foto twibbon event.</p>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-card border-t border-slate-800/80 py-6 px-4 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© Creatify Server OS — Managed locally via Termux Node</p>
+            <div class="flex items-center gap-4">
+                <span class="hover:text-slate-300 transition-colors">Nginx Gateway</span>
+                <span>•</span>
+                <span class="hover:text-slate-300 transition-colors">Cloudflare Edge</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT HANDLERS -->
+    <script>
+        lucide.createIcons();
+
+        // Search Filter Logic
+        const searchInput = document.getElementById('searchInput');
+        const appCards = document.querySelectorAll('.app-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            appCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Category Filter Logic
+        function filterApp(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white');
+                btn.classList.add('bg-slate-900/80', 'text-slate-400');
+            });
+            event.target.classList.remove('bg-slate-900/80', 'text-slate-400');
+            event.target.classList.add('bg-brand-600', 'text-white');
+
+            appCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

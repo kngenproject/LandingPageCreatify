@@ -1,88 +1,380 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Creatify • Login</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#f5f0e8; font-family:'Nunito',sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-    .card { background:#fdfaf5; border-radius:36px; padding:32px; width:400px; max-width:90%; box-shadow:0 20px 40px rgba(0,0,0,0.1); }
-    h1 { font-family:'Cormorant Garamond',serif; text-align:center; margin-bottom:24px; }
-    input { width:100%; padding:12px; margin-bottom:16px; border:1px solid #e2cfbb; border-radius:24px; background:#fefaf5; }
-    button { background:#b89a6a; color:white; border:none; padding:12px; border-radius:40px; font-weight:bold; width:100%; cursor:pointer; }
-    .message { margin-bottom:16px; padding:10px; border-radius:20px; text-align:center; display:none; }
-    .error { background:#fee2e2; color:#b91c1c; display:block; }
-    .success { background:#dcfce7; color:#15803d; display:block; }
-    .link { text-align:center; margin-top:12px; font-size:13px; }
-    .link a { color:#b89a6a; text-decoration:none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Creatify Mobile OS</title>
+    <!-- Google Fonts & Tailwind CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Mobile App Native Feel */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        body {
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+            background-attachment: fixed;
+            padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+        }
+        .glass-dock {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(17, 25, 40, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
-<body>
-<div class="card">
-  <h1>✨ Creatify</h1>
-  <div id="messageBox" class="message"></div>
-  <input type="email" id="email" placeholder="Email" autocomplete="email">
-  <input type="password" id="password" placeholder="Password" autocomplete="current-password">
-  <button id="loginBtn">Masuk</button>
-  <div class="link"><a href="./register.html">Daftar akun baru</a> | <a href="./forgot-password.html">Lupa password?</a></div>
-  <div class="link"><a href="./generator.html">✨ Buat undangan tanpa login</a></div>
-</div>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+<body class="text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white">
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDSiWxxT-qgM_tStgaw7D8AuNaDgI3mkcY",
-    authDomain: "landing-page-creatify.firebaseapp.com",
-    projectId: "landing-page-creatify",
-    storageBucket: "landing-page-creatify.firebasestorage.app",
-    messagingSenderId: "142614580975",
-    appId: "1:142614580975:web:368ba820dbfc5f69ca151a"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+    <!-- MOBILE TOP STATUS & HEADER -->
+    <header class="sticky top-0 z-40 glass-dock px-4 pt-4 pb-3 border-b border-slate-800/60">
+        <div class="max-w-md mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 active:scale-95 transition-transform">
+                    <i data-lucide="smartphone" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-sm text-white tracking-tight flex items-center gap-1.5">
+                        CREATIFY OS
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </h1>
+                    <p class="text-[10px] text-slate-400 font-medium">Infinix Note 30 Node</p>
+                </div>
+            </div>
 
-  // Jika sudah login, langsung ke dashboard
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      window.location.href = "./dashboard.html";
-    }
-  });
+            <!-- SEARCH TRIGGER FIELD -->
+            <div class="relative flex-1 max-w-[160px] sm:max-w-[200px]">
+                <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="searchInput" placeholder="Cari..." 
+                    class="w-full pl-8 pr-3 py-1.5 bg-slate-900/90 border border-slate-700/60 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-all">
+            </div>
+        </div>
 
-  const emailInput = document.getElementById('email');
-  const passwordInput = document.getElementById('password');
-  const loginBtn = document.getElementById('loginBtn');
-  const messageBox = document.getElementById('messageBox');
+        <!-- CATEGORY SWIPABLE PILLS (Thumb Friendly) -->
+        <div class="max-w-md mx-auto flex items-center gap-2 overflow-x-auto no-scrollbar pt-3 text-xs">
+            <button onclick="filterApp('all', this)" class="nav-pill active px-3.5 py-1.5 rounded-full bg-indigo-600 text-white font-semibold whitespace-nowrap transition-all active:scale-95">Semua</button>
+            <button onclick="filterApp('edukasi', this)" class="nav-pill px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-slate-400 font-medium whitespace-nowrap transition-all active:scale-95">Edukasi</button>
+            <button onclick="filterApp('utility', this)" class="nav-pill px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-slate-400 font-medium whitespace-nowrap transition-all active:scale-95">Tools</button>
+            <button onclick="filterApp('media', this)" class="nav-pill px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-slate-400 font-medium whitespace-nowrap transition-all active:scale-95">Media & Islami</button>
+        </div>
+    </header>
 
-  function showMessage(msg, type) {
-    messageBox.textContent = msg;
-    messageBox.className = `message ${type}`;
-    setTimeout(() => { messageBox.className = 'message'; }, 3000);
-  }
+    <!-- APP GRID CONTAINER (2-Column Mobile First) -->
+    <main class="max-w-md mx-auto px-4 pt-4">
+        <div id="appGrid" class="grid grid-cols-2 gap-3">
 
-  loginBtn.addEventListener('click', async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-    if (!email || !password) {
-      showMessage('Email dan password harus diisi', 'error');
-      return;
-    }
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Memproses...';
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Redirect akan terjadi via onAuthStateChanged
-    } catch (err) {
-      let msg = 'Login gagal. Periksa email/password.';
-      if (err.code === 'auth/user-not-found') msg = 'Email tidak terdaftar.';
-      if (err.code === 'auth/wrong-password') msg = 'Password salah.';
-      if (err.code === 'auth/too-many-requests') msg = 'Terlalu banyak percobaan, coba nanti.';
-      showMessage(msg, 'error');
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Masuk';
-    }
-  });
-</script>
+            <!-- Edukasi -->
+            <a href="/absen/" data-category="edukasi" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <i data-lucide="user-check" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400">Absen</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Absen Utama</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Presensi siswa</p>
+                </div>
+            </a>
+
+            <a href="/absen-tahfidh/" data-category="edukasi" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400">Tahfidh</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Absen Tahfidh</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Presensi hafalan</p>
+                </div>
+            </a>
+
+            <a href="/tahfidh-absensi/" data-category="edukasi" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400">Rekap</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Tahfidh Rekap</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Portal data santri</p>
+                </div>
+            </a>
+
+            <a href="/cbt/" data-category="edukasi" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400">Ujian</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">CBT Ujian</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Ujian online HP</p>
+                </div>
+            </a>
+
+            <a href="/voting/" data-category="edukasi" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                        <i data-lucide="vote" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400">Vote</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">E-Voting</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Pemilihan online</p>
+                </div>
+            </a>
+
+            <!-- Tools & Utility -->
+            <a href="/kasir/" data-category="utility" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-400">POS</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Kasir Toko</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Aplikasi transaksi</p>
+                </div>
+            </a>
+
+            <a href="/chat/" data-category="utility" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400">Chat</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">App Chat</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Pesan instan lokal</p>
+                </div>
+            </a>
+
+            <a href="/notepad/" data-category="utility" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-sky-500/10 text-sky-400">Notes</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Web Notepad</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Catatan cepat</p>
+                </div>
+            </a>
+
+            <a href="/capacitor-builder/" data-category="utility" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-violet-500/15 border border-violet-500/30 flex items-center justify-center text-violet-400">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-violet-500/10 text-violet-400">Dev</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Capacitor Builder</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Build APK Android</p>
+                </div>
+            </a>
+
+            <!-- Media & Islami -->
+            <a href="/yasin/" data-category="media" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400">
+                        <i data-lucide="book" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-teal-500/10 text-teal-400">Islami</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Surat Yasin</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Bacaan Yasin & Doa</p>
+                </div>
+            </a>
+
+            <a href="/tahlil-vue/" data-category="media" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400">
+                        <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-teal-500/10 text-teal-400">Islami</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Tahlil Vue</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Susunan Tahlil</p>
+                </div>
+            </a>
+
+            <a href="/acaraplay/" data-category="media" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-rose-500/10 text-rose-400">Media</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Acara Play</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Pemutar media acara</p>
+                </div>
+            </a>
+
+            <a href="/music-player/" data-category="media" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                        <i data-lucide="music" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-rose-500/10 text-rose-400">Musik</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Music Player</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Streaming musik</p>
+                </div>
+            </a>
+
+            <a href="/iklan-tv/" data-category="media" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-fuchsia-500/15 border border-fuchsia-500/30 flex items-center justify-center text-fuchsia-400">
+                        <i data-lucide="tv" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-fuchsia-500/10 text-fuchsia-400">TV</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Iklan TV</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Running text TV</p>
+                </div>
+            </a>
+
+            <a href="/twibbon/" data-category="media" class="app-card glass-card p-3.5 rounded-2xl flex flex-col justify-between active:scale-95 transition-all duration-150">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-2xl bg-fuchsia-500/15 border border-fuchsia-500/30 flex items-center justify-center text-fuchsia-400">
+                        <i data-lucide="image" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-fuchsia-500/10 text-fuchsia-400">Frame</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs leading-snug">Twibbon Maker</h3>
+                    <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">Bingkai foto event</p>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- FLOATING BOTTOM DOCK (Thumb Nav Bar) -->
+    <nav class="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md glass-dock rounded-2xl border border-slate-700/50 p-1.5 shadow-2xl">
+        <div class="grid grid-cols-4 gap-1 text-center">
+            <button onclick="filterApp('all', this)" class="dock-item flex flex-col items-center justify-center py-2 rounded-xl text-indigo-400 active:scale-90 transition-all">
+                <i data-lucide="grid" class="w-5 h-5"></i>
+                <span class="text-[10px] font-semibold mt-1">Home</span>
+            </button>
+            <button onclick="filterApp('edukasi', this)" class="dock-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 active:scale-90 transition-all">
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                <span class="text-[10px] font-semibold mt-1">Edukasi</span>
+            </button>
+            <button onclick="filterApp('utility', this)" class="dock-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 active:scale-90 transition-all">
+                <i data-lucide="wrench" class="w-5 h-5"></i>
+                <span class="text-[10px] font-semibold mt-1">Tools</span>
+            </button>
+            <button onclick="filterApp('media', this)" class="dock-item flex flex-col items-center justify-center py-2 rounded-xl text-slate-400 active:scale-90 transition-all">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                <span class="text-[10px] font-semibold mt-1">Media</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- SCRIPT HANDLERS -->
+    <script>
+        lucide.createIcons();
+
+        // Real-time Search Handler
+        const searchInput = document.getElementById('searchInput');
+        const appCards = document.querySelectorAll('.app-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            appCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Mobile Filter Handler
+        function filterApp(category, btnElement) {
+            // Sync pill buttons
+            const pills = document.querySelectorAll('.nav-pill');
+            pills.forEach(p => {
+                p.classList.remove('bg-indigo-600', 'text-white');
+                p.classList.add('bg-slate-900/80', 'text-slate-400');
+            });
+
+            // Sync bottom dock items
+            const dockItems = document.querySelectorAll('.dock-item');
+            dockItems.forEach(d => {
+                d.classList.remove('text-indigo-400');
+                d.classList.add('text-slate-400');
+            });
+
+            if (btnElement) {
+                if (btnElement.classList.contains('nav-pill')) {
+                    btnElement.classList.remove('bg-slate-900/80', 'text-slate-400');
+                    btnElement.classList.add('bg-indigo-600', 'text-white');
+                } else if (btnElement.classList.contains('dock-item')) {
+                    btnElement.classList.remove('text-slate-400');
+                    btnElement.classList.add('text-indigo-400');
+                }
+            }
+
+            // Filter Grid Cards
+            appCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
